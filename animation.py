@@ -1,22 +1,26 @@
-from animator import Animator
+import json
+import os
 
-class Animation(Animator):
-    def start(self):
-        pass
+class Animation():
+    def __init__(self, name, info):
+        self.name = name
+        self.frames = info[0]
+        self.durations = [i * 1000 for i in info[1]]
 
-    def update(self):
-        direction = self.values['direction']
+    def get_frame_duration(self, index):
+        return self.durations[index]
 
-        # TODO: Hard-coded numbers into enums
+    def get_frame(self, index):
+        return self.frames[index]
 
-        if direction.y == -1:
-            self.frame = 3
+def get_animations(path):
+    animation_path = os.path.join(os.path.splitext(path)[0] + '.json')
 
-        if direction.x == -1:
-            self.frame = 9
+    data = json.load(open(animation_path))['animations']
 
-        if direction.y == 1:
-            self.frame = 0
+    animations = {}
 
-        if direction.x == 1:
-            self.frame = 6
+    for animation_name in data:
+        animations[animation_name] = Animation(animation_name, data[animation_name])
+
+    return animations
