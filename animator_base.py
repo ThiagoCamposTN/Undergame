@@ -5,7 +5,9 @@ class AnimatorBase:
     def __init__(self, sprite, path):
         self.sprite = sprite
         self.animations = animation.get_animations(path)
+        
         self.playing_animation = None
+        self.frame_counter = 0
 
         self.values = {}
         self.frame = 0
