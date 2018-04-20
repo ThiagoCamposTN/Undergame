@@ -1,47 +1,30 @@
 import pygame
-from game_behaviour import GameBehaviour, Transform, Vector2
+from game_behaviour import GameObject, Transform, Vector2
 from spritesheet import Spritesheet
+from animation import Animation
 
-class Player(GameBehaviour):
+class Player(GameObject):
     def start(self):
         self.transform.position = Vector2(100, 100)
         self.transform.velocity = 1
 
         self.sprite = Spritesheet('resources/frisk.png', Vector2(19, 29))
-
-        self.current_sprite = 0
+        self.animation = Animation(self.sprite.cells)
         
     def update(self):
         keys = pygame.key.get_pressed()
 
-        if keys[pygame.K_w]:
-            self.transform.position.y -= self.transform.velocity
+        direction = Vector2.zero()
 
-        if keys[pygame.K_a]:
-            self.transform.position.x -= self.transform.velocity
+        direction.y += -int(keys[pygame.K_w]) + int(keys[pygame.K_s])
+        direction.x += -int(keys[pygame.K_a]) + int(keys[pygame.K_d])
 
-        if keys[pygame.K_s]:
-            self.transform.position.y += self.transform.velocity
-        
-        if keys[pygame.K_d]:
-            self.transform.position.x += self.transform.velocity
+        self.animation.set_value("direction", direction)
 
-        # TODO: Remove this system and implement an animation system
-        if keys[pygame.K_x]:
-            self.current_sprite += 1
+        self.transform.position += direction * self.transform.velocity
 
-        if keys[pygame.K_z]:
-            self.current_sprite -= 1
+        self.game_update()
 
-        if self.current_sprite < 0:
-            self.current_sprite = 0
-        elif self.current_sprite > len(self.sprite.cells) - 1:
-            self.current_sprite = len(self.sprite.cells) - 1
-        #
-
-        current_sprite = self.sprite.current_sprite()
-
-        self.game_update(current_sprite)
-
-    def game_update(self, current_sprite):
-        self.game_display.blit(current_sprite, Vector2.to_tuple(self.transform.position), self.sprite.cells[self.current_sprite])
+    def game_update(self):
+        self.animation.update()
+        self.game_display.blit(self.sprite.sheet, Vector2.to_tuple(self.transform.position), self.sprite.get_sprite(self.animation.frame))

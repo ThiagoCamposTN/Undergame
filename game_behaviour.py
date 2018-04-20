@@ -1,6 +1,6 @@
 import pygame
 
-class GameBehaviour:
+class GameObject:
     def awake(self, game_display):
         self.game_display = game_display
         self.transform = Transform()
@@ -21,6 +21,12 @@ class Vector2:
 
     def to_tuple(position):
         return (position.x, position.y)
+
+    def __add__(self, b):
+        return Vector2(self.x + b.x, self.y + b.y)
+
+    def __mul__(self, b):
+        return Vector2(self.x * b, self.y * b)
 
 class Transform:
     def __init__(self):

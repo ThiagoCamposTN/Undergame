@@ -25,8 +25,8 @@ class Spritesheet:
         for i in range(rows * colls):
             self.cells.append(((i % colls)*(sprite_x + 1) + 1, int(i / colls)*(sprite_y + 1) + 1, sprite_x, sprite_y))
 
-    def current_sprite(self):
-        return self.sheet
+    def get_sprite(self, number):
+        return self.cells[number]
 
     def get_rows(self):
         return int(self.sheet_size.y / self.sprite_size.y)

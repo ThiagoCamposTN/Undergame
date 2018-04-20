@@ -1,11 +1,11 @@
 import pygame
-from player import Player
 from internal.color import Color
+import hierarchy
 
 class GameManager:
     def __init__(self, game_display):
         self.game_display = game_display
-        self.player = Player()
+        self.hierarchy = hierarchy.gameObjects
 
     def setup(self):
         pygame.display.set_caption('Undergame')
@@ -18,8 +18,11 @@ class GameManager:
         pygame.init()
         self.setup()
 
-        self.player.awake(self.game_display)
-        self.player.start()
+        for gameObj in self.hierarchy:
+            gameObj.awake(self.game_display)
+
+        for gameObj in self.hierarchy:
+            gameObj.start()
         
         self.game_loop()
 
@@ -50,4 +53,6 @@ class GameManager:
 
     def update(self):
         self.game_display.fill(Color.lavender)
-        self.player.update()
+
+        for gameObj in self.hierarchy:
+            gameObj.update()
