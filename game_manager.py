@@ -55,4 +55,4 @@ class GameManager:
         self.game_display.fill(Color.lavender)
 
         for gameObj in self.hierarchy:
-            gameObj.update()
+            gameObj._update()
