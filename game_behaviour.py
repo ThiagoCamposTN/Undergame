@@ -5,13 +5,23 @@ from animator import Animator
 from game_core import Vector2
 
 class GameObject:
-    def awake(self, game_display, display_scale):
+    def _awake(self, game_display, display_scale):
         self.game_display = game_display
         self.transform = Transform()
 
         self.animator = None
         self.sprite = None
         self.display_scale = display_scale
+
+        self.awake()
+
+    def awake(self):
+        pass
+
+    def _start(self):
+        self.start()
+        
+        self.rect = pygame.Rect(Vector2.to_tuple(self.transform.position), Vector2.to_tuple(self.sprite.sprite_size))
 
     def start(self):
         pass
@@ -42,4 +52,6 @@ class GameObject:
         actual_position = ( self.display_scale.x * self.transform.position.x, 
                             self.display_scale.y * self.transform.position.y )
 
-        return actual_position
+        self.rect.topleft = actual_position
+
+        return self.rect.topleft

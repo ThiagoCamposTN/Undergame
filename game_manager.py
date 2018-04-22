@@ -22,10 +22,10 @@ class GameManager:
         self.setup()
 
         for gameObj in self.hierarchy:
-            gameObj.awake(self.game_display, self.display_scale)
+            gameObj._awake(self.game_display, self.display_scale)
 
         for gameObj in self.hierarchy:
-            gameObj.start()
+            gameObj._start()
         
         self.game_loop()
 
