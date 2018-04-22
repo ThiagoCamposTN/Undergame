@@ -1,6 +1,7 @@
 import pygame
 from internal.color import Color
 import hierarchy
+from game_core import Vector2
 
 class GameManager:
     def __init__(self, game_display):
@@ -14,12 +15,14 @@ class GameManager:
         self.game_finished = False
         self.fps = 60
 
+        self.display_scale = Vector2(2, 2)
+
     def start(self):
         pygame.init()
         self.setup()
 
         for gameObj in self.hierarchy:
-            gameObj.awake(self.game_display)
+            gameObj.awake(self.game_display, self.display_scale)
 
         for gameObj in self.hierarchy:
             gameObj.start()

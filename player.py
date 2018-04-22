@@ -4,7 +4,7 @@ from game_core import Vector2
 
 class Player(GameObject):
     def start(self):
-        self.transform.position = Vector2(100, 100)
+        self.transform.position = Vector2(10, 10)
         #self.transform.velocity = 1
 
         self.load_sprite('resources/frisk.png', Vector2(19, 29))
