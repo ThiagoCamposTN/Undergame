@@ -2,8 +2,8 @@ import pygame
 from game_core import Vector2
 
 class Spritesheet:
-    def __init__(self, image, size, display_scale):
-        self.original_sheet = pygame.image.load(image)
+    def __init__(self, image_path, size, display_scale):
+        self.original_sheet = pygame.image.load(image_path)
         self.original_sprite_size = size
 
         self._resize_sprites(display_scale)

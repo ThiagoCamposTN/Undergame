@@ -1,5 +1,5 @@
 import pygame
-from player_base import PlayerBase
+from base.player_base import PlayerBase
 from game_core import Vector2
 
 class Player(PlayerBase):

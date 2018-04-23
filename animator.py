@@ -1,4 +1,4 @@
-from animator_base import AnimatorBase
+from base.animator_base import AnimatorBase
 from animation import Animation
 
 class Animator(AnimatorBase):

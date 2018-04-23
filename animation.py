@@ -1,5 +1,4 @@
-import json
-import os
+import utils
 
 class Animation():
     def __init__(self, name, info):
@@ -14,9 +13,7 @@ class Animation():
         return self.frames[index]
 
 def get_animations(path):
-    animation_path = os.path.join(os.path.splitext(path)[0] + '.json')
-
-    data = json.load(open(animation_path))['animations']
+    data = utils.get_file_data(path)["animations"]
 
     animations = {}
 
