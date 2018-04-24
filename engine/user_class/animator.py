@@ -1,5 +1,5 @@
-from base.animator_base import AnimatorBase
-from animation import Animation
+from engine.user_class.base.animator_base import AnimatorBase
+from engine.core.component.animation import Animation
 
 class Animator(AnimatorBase):
     def start(self):

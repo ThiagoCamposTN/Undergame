@@ -1,5 +1,5 @@
 import pygame
-from game_core import Vector2
+from engine.core.internal.transform import Vector2
 
 class Spritesheet:
     def __init__(self, image_path, size, display_scale):

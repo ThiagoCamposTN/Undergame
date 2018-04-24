@@ -1,4 +1,4 @@
-import utils
+from engine.core import utils
 
 class Animation():
     def __init__(self, name, info):

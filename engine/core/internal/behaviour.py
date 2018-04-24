@@ -1,5 +1,5 @@
 import pygame
-from game_core import Transform
+from engine.core.internal.transform import Transform
 
 class GameObject:
     def _awake(self, game_display, display_scale):

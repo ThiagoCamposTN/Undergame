@@ -1,20 +1,9 @@
 import pygame
-from game_behaviour import GameObject
-from spritesheet import Spritesheet
-import utils
-from game_core import Vector2
-
-class Room:
-    def __init__(self, data):
-        self.tiles = {}
-
-        for tile in data:
-            positions = []
-
-            for position in data[tile]:
-                positions.append(Vector2(position[0], position[1]))
-
-            self.tiles[tile] = positions
+from engine.core.internal.behaviour import GameObject
+from engine.core.component.spritesheet import Spritesheet
+from engine.core import utils
+from engine.core.internal.transform import Vector2
+from engine.core.component.room import Room
 
 class LevelBase(GameObject):
     def _awake(self, game_display, display_scale):
@@ -41,13 +30,16 @@ class LevelBase(GameObject):
         if self.sprite:
             room_1 = self.rooms[0]
 
-            for tile in room_1.tiles:
-                for position in room_1.tiles[tile]:
-                    self.game_display.blit(self.sprite.sheet, self._tile_position_based_on_display_scale(position), self.sprite.get_sprite(int(tile)))
+            for str_position in room_1.positions:
+                position = room_1.position_from_tuple_str(str_position)
+
+                tile_position = self._tile_position_based_on_display_scale(Vector2(position[0], position[1]))
+                sprite_in_position = room_1.positions[str_position]
+                self.game_display.blit(self.sprite.sheet, tile_position, self.sprite.get_sprite(sprite_in_position))
 
     def _tile_position_based_on_display_scale(self, position):
-        actual_position = ( position.x * self.sprite.sprite_size.x, 
-                            position.y * self.sprite.sprite_size.y )
+        actual_position = ( self.display_scale.x * position.x, 
+                            self.display_scale.y * position.y )
 
         self.rect.topleft = actual_position
 

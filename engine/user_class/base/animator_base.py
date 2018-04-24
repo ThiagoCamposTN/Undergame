@@ -1,5 +1,5 @@
 import pygame
-import animation
+from engine.core.component import animation
 
 class AnimatorBase:
     def __init__(self, sprite, path):

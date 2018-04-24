@@ -1,7 +1,7 @@
 import pygame
-from internal.color import Color
-import hierarchy
-from game_core import Vector2
+from engine.core.static.color import Color
+from engine.core import hierarchy
+from engine.core.internal.transform import Vector2
 
 class GameManager:
     def __init__(self, game_display):

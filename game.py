@@ -1,5 +1,5 @@
-from game_manager import GameManager
-import config
+from engine.core.game_manager import GameManager
+from engine.core import config
 
 def main():
     manager = GameManager(config.game_display())

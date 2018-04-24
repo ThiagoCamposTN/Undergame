@@ -1,6 +1,6 @@
 import pygame
-from base.player_base import PlayerBase
-from game_core import Vector2
+from engine.user_class.base.player_base import PlayerBase
+from engine.core.internal.transform import Vector2
 
 class Player(PlayerBase):
     def start(self):

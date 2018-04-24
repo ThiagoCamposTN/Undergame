@@ -1,5 +1,5 @@
-from player import Player
-from level import Level
+from engine.user_class.player import Player
+from engine.user_class.level import Level
 
 '''
 The Hierarchy objective is instantiate all objects.

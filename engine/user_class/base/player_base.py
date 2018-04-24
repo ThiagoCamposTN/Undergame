@@ -1,8 +1,8 @@
 import pygame
-from game_behaviour import GameObject
-from spritesheet import Spritesheet
-from animator import Animator
-from game_core import Vector2
+from engine.core.internal.behaviour import GameObject
+from engine.core.component.spritesheet import Spritesheet
+from engine.user_class.animator import Animator
+from engine.core.internal.transform import Vector2
 
 class PlayerBase(GameObject):
     def _awake(self, game_display, display_scale):

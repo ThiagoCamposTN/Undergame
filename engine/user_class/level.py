@@ -1,6 +1,6 @@
 import pygame
-from base.level_base import LevelBase
-from game_core import Vector2
+from engine.user_class.base.level_base import LevelBase
+from engine.core.internal.transform import Vector2
 
 class Level(LevelBase):
     def start(self):

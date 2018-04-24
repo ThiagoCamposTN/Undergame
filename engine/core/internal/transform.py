@@ -18,14 +18,14 @@ class Vector2:
     def __sub__(self, b):
         return Vector2(self.x - b.x, self.y - b.y)
 
-    def __mul__(self, b):
-        return Vector2(self.x * b, self.y * b)
+    def __mul__(self, number):
+        return Vector2(self.x * number, self.y * number)
 
-    def __truediv__(self, b):
-        return Vector2(self.x / b, self.y / b)
+    def __truediv__(self, number):
+        return Vector2(self.x / number, self.y / number)
 
-    def __floordiv__(self, b):
-        return Vector2(self.x // b, self.y // b)
+    def __floordiv__(self, number):
+        return Vector2(self.x // number, self.y // number)
 
     def __eq__(self, vetor_b):
         return self.x == vetor_b.x and self.y == vetor_b.y
