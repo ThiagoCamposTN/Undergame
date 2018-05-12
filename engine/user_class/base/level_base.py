@@ -6,10 +6,10 @@ from engine.core.internal.transform import Vector2
 from engine.core.component.room import Room
 
 class LevelBase(GameObject):
-    def _awake(self, game_display, display_scale):
+    def _awake(self, game_display, main_camera):
         self.sprite = None
         self.rooms = []
-        super()._awake(game_display, display_scale)
+        super()._awake(game_display, main_camera)
 
     def _start(self):
         super()._start()
@@ -20,7 +20,7 @@ class LevelBase(GameObject):
         super()._late_update()
 
     def load_sprite(self, path, sprite_size):
-        self.sprite = Spritesheet(path, sprite_size, self.display_scale)
+        self.sprite = Spritesheet(path, sprite_size, self.main_camera.display_scale)
         self.add_room(utils.get_file_data(path)["room_1"])
 
     def add_room(self, room_data):
@@ -38,14 +38,12 @@ class LevelBase(GameObject):
                 self.game_display.blit(self.sprite.sheet, tile_position, self.sprite.get_sprite(sprite_in_position))
 
     def _tile_position_based_on_display_scale(self, position):
-        actual_position = ( self.display_scale.x * position.x, 
-                            self.display_scale.y * position.y )
+        actual_position = ( self.main_camera.display_scale.x * (position.x - self.main_camera.delta.x), 
+                            self.main_camera.display_scale.y * (position.y - self.main_camera.delta.y))
 
         self.rect.topleft = actual_position
 
         return self.rect.topleft
 
-    def change_scale(self, new_scale):
-        self.display_scale = new_scale
-
-        self.sprite._resize_sprites(new_scale)
+    def _update_scale(self):
+        self.sprite._resize_sprites(self.main_camera.display_scale)

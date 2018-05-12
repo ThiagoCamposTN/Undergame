@@ -8,18 +8,18 @@ class Spritesheet:
 
         self._resize_sprites(display_scale)
 
-    def _resize_sprites(self, display_scale):
-        self.display_scale = display_scale
+    def _resize_sprites(self, scale):
+        self.display_scale = scale
 
-        self.sprite_size = self._get_sprite_size(self.original_sprite_size)
+        self.sprite_size = self._get_sprite_size()
         self.sheet_size = self._get_sheet_size()
 
         self.sheet = pygame.transform.scale(self.original_sheet, self.sheet_size.to_tuple())
 
         self._get_sprites()
 
-    def _get_sprite_size(self, size):
-        return Vector2(size.x * self.display_scale.x, size.y * self.display_scale.y)
+    def _get_sprite_size(self):
+        return Vector2(self.original_sprite_size.x * self.display_scale.x, self.original_sprite_size.y * self.display_scale.y)
 
     def _get_sheet_size(self):
         width, height = self.original_sheet.get_rect().size

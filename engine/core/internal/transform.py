@@ -1,7 +1,14 @@
 class Vector2:
-    def __init__(self, x, y):
-        self.x = x
-        self.y = y
+    def __init__(self, first=None, second=None):
+        self.x, self.y = self.convert_if_first_parameter_is_tuple(first, second)
+
+    def convert_if_first_parameter_is_tuple(self, first, second):
+        # if the first parameter is tuple, ignore the second parameter
+
+        if isinstance(first, tuple):
+            return first[0], first[1]
+        else:
+            return first, second
 
     def zero():
         return Vector2(0, 0)
@@ -19,7 +26,7 @@ class Vector2:
         return Vector2(self.x - b.x, self.y - b.y)
 
     def __mul__(self, number):
-        return Vector2(self.x * number, self.y * number)
+        return Vector2(self.x * number, self.y * number) 
 
     def __truediv__(self, number):
         return Vector2(self.x / number, self.y / number)

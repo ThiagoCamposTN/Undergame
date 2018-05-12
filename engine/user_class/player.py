@@ -5,7 +5,6 @@ from engine.core.internal.transform import Vector2
 class Player(PlayerBase):
     def start(self):
         self.transform.position = Vector2(10, 10)
-        #self.transform.velocity = 1
 
         self.load_sprite('resources/characters/frisk.png', Vector2(19, 29))
         
@@ -16,9 +15,6 @@ class Player(PlayerBase):
 
         direction.y += -int(keys[pygame.K_w]) + int(keys[pygame.K_s])
         direction.x += -int(keys[pygame.K_a]) + int(keys[pygame.K_d])
-
-        # TODO: Remove this
-        #self.change_scale(self.display_scale + direction)
 
         self.animator.set_value("direction", direction)
 

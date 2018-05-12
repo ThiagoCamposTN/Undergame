@@ -5,10 +5,10 @@ from engine.user_class.animator import Animator
 from engine.core.internal.transform import Vector2
 
 class PlayerBase(GameObject):
-    def _awake(self, game_display, display_scale):
+    def _awake(self, game_display, main_camera):
         self.animator = None
         self.sprite = None
-        super()._awake(game_display, display_scale)
+        super()._awake(game_display, main_camera)
 
     def _start(self):
         super()._start()
@@ -19,7 +19,7 @@ class PlayerBase(GameObject):
         super()._late_update()
 
     def load_sprite(self, path, sprite_size):
-        self.sprite = Spritesheet(path, sprite_size, self.display_scale)
+        self.sprite = Spritesheet(path, sprite_size, self.main_camera.display_scale)
         self.animator = Animator(self.sprite.cells, path)
 
     def _game_update(self):
@@ -30,14 +30,12 @@ class PlayerBase(GameObject):
                 self.game_display.blit(self.sprite.sheet, self._position_based_on_display_scale(), self.sprite.get_sprite(self.animator.frame))
 
     def _position_based_on_display_scale(self):
-        actual_position = ( self.display_scale.x * self.transform.position.x, 
-                            self.display_scale.y * self.transform.position.y )
+        actual_position = ( self.main_camera.display_scale.x * (self.transform.position.x - self.main_camera.delta.x), 
+                            self.main_camera.display_scale.y * (self.transform.position.y - self.main_camera.delta.y) )
 
         self.rect.topleft = actual_position
 
         return self.rect.topleft
 
-    def change_scale(self, new_scale):
-        self.display_scale = new_scale
-
-        self.sprite._resize_sprites(new_scale)
+    def _update_scale(self):
+        self.sprite._resize_sprites(self.main_camera.display_scale)

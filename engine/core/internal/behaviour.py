@@ -2,10 +2,12 @@ import pygame
 from engine.core.internal.transform import Transform
 
 class GameObject:
-    def _awake(self, game_display, display_scale):
-        self.game_display = game_display
+    def __init__(self):
         self.transform = Transform()
-        self.display_scale = display_scale
+
+    def _awake(self, game_display, main_camera):
+        self.game_display = game_display
+        self.main_camera = main_camera
 
         self.awake()
 

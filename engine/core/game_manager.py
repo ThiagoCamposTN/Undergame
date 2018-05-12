@@ -2,6 +2,7 @@ import pygame
 from engine.core.static.color import Color
 from engine.core import hierarchy
 from engine.core.internal.transform import Vector2
+from engine.core.internal.camera import Camera
 
 class GameManager:
     def __init__(self, game_display):
@@ -15,14 +16,14 @@ class GameManager:
         self.game_finished = False
         self.fps = 60
 
-        self.display_scale = Vector2(2, 2)
+        self.main_camera = Camera(self, Vector2(self.game_display.get_size()) // 2, Vector2(2, 2))
 
     def start(self):
         pygame.init()
         self.setup()
 
         for gameObj in self.hierarchy:
-            gameObj._awake(self.game_display, self.display_scale)
+            gameObj._awake(self.game_display, self.main_camera)
 
         for gameObj in self.hierarchy:
             gameObj._start()
@@ -59,3 +60,7 @@ class GameManager:
 
         for gameObj in self.hierarchy:
             gameObj._update()
+
+    def update_objects_scale(self):
+        for gameObj in self.hierarchy:
+            gameObj._update_scale()

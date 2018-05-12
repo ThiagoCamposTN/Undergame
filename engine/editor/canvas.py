@@ -55,16 +55,14 @@ class Canvas(GameObject):
 
         return selector_position
 
-    def change_scale(self, new_scale):
-        self.display_scale = new_scale
-
-        self.sprite._resize_sprites(new_scale)
+    def _update_scale(self):
+        self.sprite._resize_sprites(self.main_camera.display_scale)
 
     def set_room(self, room):
         self.room = Room(utils.get_file_data(self.data_path)[room])
 
     def start(self):
-        self.sprite = Spritesheet(self.spritesheet_path, Vector2(20, 20), self.display_scale)
+        self.sprite = Spritesheet(self.spritesheet_path, Vector2(20, 20), self.main_camera.display_scale)
         self.set_room(self.room_id)
         self.selector.set_sprite_quantity(len(self.sprite.cells))
 
