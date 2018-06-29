@@ -30,12 +30,12 @@ class PlayerBase(GameObject):
                 self.game_display.blit(self.sprite.sheet, self._position_based_on_display_scale().to_tuple(), self.sprite.get_sprite(self.animator.frame))
 
     def _position_based_on_display_scale(self):
-        actual_position = ( self.main_camera.display_scale.x * (self.transform.position.x - self.main_camera.delta.x), 
-                            self.main_camera.display_scale.y * (self.transform.position.y - self.main_camera.delta.y) )
+        camera_based_position = self.main_camera.get_position_based_on_camera(self.transform.position)
 
-        self.rect.topleft = actual_position
+        actual_position = ( self.main_camera.display_scale.x * camera_based_position.x, 
+                            self.main_camera.display_scale.y * camera_based_position.y)
 
-        return self.rect.topleft
+        return Vector2(actual_position)
 
     def _update_scale(self):
         self.sprite._resize_sprites(self.main_camera.display_scale)

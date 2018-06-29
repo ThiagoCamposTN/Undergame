@@ -4,6 +4,12 @@ from engine.core import hierarchy
 from engine.core.internal.transform import Vector2
 from engine.core.internal.camera import Camera
 
+class MockManager():
+    def __init__(self, game_display):
+        self.game_display = game_display
+        self.hierarchy = []
+        self.main_camera = None
+
 class GameManager:
     def __init__(self, game_display):
         self.game_display = game_display

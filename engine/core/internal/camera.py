@@ -13,11 +13,13 @@ class Camera(GameObject):
         self.display_scale = Vector2.one() * factor
         self.game_manager.update_objects_scale()
 
-    def move(self, delta):
-        self.delta = delta
+    def get_screen_size(self):
+        return Vector2(self.game_manager.game_display.get_size())
 
-    def set_position(self, position):
-        self.move(position - self.transform.position)
+    def get_position_based_on_camera(self, position):
+        screen_size = self.get_screen_size()
 
-    def get_position(self):
-        return self.transform.position + self.delta
+        screen_scale = Vector2(   screen_size.x // (self.display_scale.x * 2),
+                                    screen_size.y // (self.display_scale.y * 2))
+
+        return position + screen_scale - self.transform.position

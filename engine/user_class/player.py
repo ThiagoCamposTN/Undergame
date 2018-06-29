@@ -4,8 +4,6 @@ from engine.core.internal.transform import Vector2
 
 class Player(PlayerBase):
     def start(self):
-        self.transform.position = Vector2(10, 10)
-
         self.load_sprite('resources/characters/frisk.png', Vector2(19, 29))
         
     def update(self):
@@ -19,3 +17,7 @@ class Player(PlayerBase):
         self.animator.set_value("direction", direction)
 
         self.transform.position += direction * self.transform.velocity
+
+        self.main_camera.transform.position = self.transform.position
+
+        print(self.transform.position)
