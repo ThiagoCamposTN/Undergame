@@ -1,12 +1,19 @@
 import pygame
 from engine.core.internal.transform import Vector2
+from pygame.surface import Surface
 
 class Spritesheet:
     def __init__(self, image_path, size, display_scale):
-        self.original_sheet = pygame.image.load(image_path)
+        self.original_sheet = self._load_sprite(image_path)
         self.original_sprite_size = size
 
         self._resize_sprites(display_scale)
+
+    def _load_sprite(self, image_path):
+        if image_path != '':
+            return pygame.image.load(image_path)
+        
+        return Surface((1, 1))
 
     def _resize_sprites(self, scale):
         self.display_scale = scale
@@ -52,5 +59,3 @@ class Spritesheet:
 
     def _get_colls(self):
         return int(self.sheet_size.x / self.sprite_size.x)
-
-    

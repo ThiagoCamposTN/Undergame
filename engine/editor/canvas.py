@@ -7,15 +7,16 @@ from engine.editor.selector import Selector
 from engine.core.component.room import Room
 
 class Canvas(GameObject):
-    def _awake(self, game_display, display_scale):
+    def _awake(self, game_display, display_scale, main_camera):
         self.spritesheet = None
         self.room = None
         self.selector = Selector()
-        super()._awake(game_display, display_scale)
+        super()._awake(game_display, main_camera)
 
         self.selector._awake(game_display, display_scale)
         self.last_change = None
         self.selector_grid_position = Vector2.zero()
+        self.display_scale = display_scale
 
     def _start(self, grid_size, spritesheet_path, data_path, room_id):
         self.grid_size = grid_size

@@ -40,6 +40,9 @@ class Vector2:
     def __str__(self):
         return "Vector2({0}, {1})".format(self.x, self.y)
 
+    def __neg__(self):
+        return Vector2(-self.x, -self.y)
+
 class Transform:
     def __init__(self):
         self.position = Vector2.zero()
