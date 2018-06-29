@@ -19,7 +19,8 @@ class Camera(GameObject):
     def get_position_based_on_camera(self, position):
         screen_size = self.get_screen_size()
 
-        screen_scale = Vector2(   screen_size.x // (self.display_scale.x * 2),
-                                    screen_size.y // (self.display_scale.y * 2))
+        # half the screen, divided by the current scale
+        half_screen_scaled = Vector2( screen_size.x // (self.display_scale.x * 2),
+                                screen_size.y // (self.display_scale.y * 2))
 
-        return position + screen_scale - self.transform.position
+        return position + half_screen_scaled - self.transform.position

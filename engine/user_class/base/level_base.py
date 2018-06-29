@@ -13,7 +13,6 @@ class LevelBase(GameObject):
 
     def _start(self):
         super()._start()
-        self.rect = pygame.Rect(Vector2.to_tuple(self.transform.position), Vector2.to_tuple(self.sprite.sprite_size))
         
     def _late_update(self):
         self._game_update()
@@ -33,17 +32,18 @@ class LevelBase(GameObject):
             for str_position in room_1.positions:
                 position = room_1.position_from_tuple_str(str_position)
 
-                tile_position = self._tile_position_based_on_display_scale(Vector2(position[0], position[1]))
+                tile_position = self._tile_position_based_on_display_scale(Vector2(position[0], position[1])).to_tuple()
                 sprite_in_position = room_1.positions[str_position]
                 self.game_display.blit(self.sprite.sheet, tile_position, self.sprite.get_sprite(sprite_in_position))
 
+    #TODO: This function is almost exactly to player_base's _position_based_on_display_scale
     def _tile_position_based_on_display_scale(self, position):
-        actual_position = ( self.main_camera.display_scale.x * (position.x - self.main_camera.delta.x), 
-                            self.main_camera.display_scale.y * (position.y - self.main_camera.delta.y))
+        camera_based_position = self.main_camera.get_position_based_on_camera(position)
 
-        self.rect.topleft = actual_position
+        actual_position = ( self.main_camera.display_scale.x * camera_based_position.x, 
+                            self.main_camera.display_scale.y * camera_based_position.y)
 
-        return self.rect.topleft
+        return Vector2(actual_position)
 
     def _update_scale(self):
         self.sprite._resize_sprites(self.main_camera.display_scale)
