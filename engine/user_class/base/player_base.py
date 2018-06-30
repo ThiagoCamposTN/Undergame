@@ -3,6 +3,7 @@ from engine.core.internal.behaviour import GameObject
 from engine.core.component.spritesheet import Spritesheet
 from engine.user_class.animator import Animator
 from engine.core.internal.transform import Vector2
+from pygame.rect import Rect
 
 class PlayerBase(GameObject):
     def _awake(self, game_display, main_camera):
@@ -40,19 +41,18 @@ class PlayerBase(GameObject):
     def _update_scale(self):
         self.sprite._resize_sprites(self.main_camera.display_scale)
 
+    def get_rect(self):
+        return Rect(    self.transform.position.x, self.transform.position.y, 
+                        self.sprite.original_sprite_size.x, self.sprite.original_sprite_size.y)
+
     def on_screen(self):
-        player_top_left = self.transform.position
-        player_bottom_right = self.transform.position + self.sprite.original_sprite_size
+        player_rect = self.get_rect()
+        screen_rect = self.main_camera.get_rect()
 
-        half_screen_size = self.main_camera.get_scaled_screen_size() // 2
-
-        screen_top_left = self.main_camera.transform.position - half_screen_size
-        screen_bottom_right = self.main_camera.transform.position + half_screen_size
-
-        if( player_bottom_right.x > screen_top_left.x and
-            player_top_left.x < screen_bottom_right.x and
-            player_bottom_right.y > screen_top_left.y and
-            player_top_left.y < screen_bottom_right.y ):
+        if( player_rect.x + player_rect.w > screen_rect.x and
+            player_rect.x < screen_rect.x + screen_rect.w and
+            player_rect.y + player_rect.h > screen_rect.y and
+            player_rect.y < screen_rect.y + screen_rect.h ):
             return True
 
         return False
