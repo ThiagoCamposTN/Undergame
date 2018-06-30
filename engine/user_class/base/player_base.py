@@ -44,15 +44,3 @@ class PlayerBase(GameObject):
     def get_rect(self):
         return Rect(    self.transform.position.x, self.transform.position.y, 
                         self.sprite.original_sprite_size.x, self.sprite.original_sprite_size.y)
-
-    def on_screen(self):
-        player_rect = self.get_rect()
-        screen_rect = self.main_camera.get_rect()
-
-        if( player_rect.x + player_rect.w > screen_rect.x and
-            player_rect.x < screen_rect.x + screen_rect.w and
-            player_rect.y + player_rect.h > screen_rect.y and
-            player_rect.y < screen_rect.y + screen_rect.h ):
-            return True
-
-        return False
