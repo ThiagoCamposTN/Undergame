@@ -6,7 +6,7 @@ class Player(PlayerBase):
     def start(self):
         self.load_sprite('resources/characters/frisk.png', Vector2(19, 29))
         # As the Player position is not set: position == Vector2.zero()
-        self.main_camera.transform.position = self.transform.position
+        #self.main_camera.transform.position = self.transform.position
         
     def update(self):
         keys = pygame.key.get_pressed()
@@ -21,4 +21,4 @@ class Player(PlayerBase):
         self.transform.position += direction * self.transform.velocity
 
         # Camera follows player
-        #self.main_camera.transform.position = self.transform.position
+        self.main_camera.transform.position = self.transform.position

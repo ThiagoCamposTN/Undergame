@@ -4,6 +4,7 @@ from engine.core.component.spritesheet import Spritesheet
 from engine.core import utils
 from engine.core.internal.transform import Vector2
 from engine.core.component.room import Room
+from pygame.rect import Rect
 
 class LevelBase(GameObject):
     def _awake(self, game_display, main_camera):
@@ -32,11 +33,15 @@ class LevelBase(GameObject):
             for str_position in room_1.positions:
                 position = room_1.position_from_tuple_str(str_position)
 
-                tile_position = self._tile_position_based_on_display_scale(Vector2(position[0], position[1])).to_tuple()
-                sprite_in_position = room_1.positions[str_position]
-                self.game_display.blit(self.sprite.sheet, tile_position, self.sprite.get_sprite(sprite_in_position))
+                tile_absolute_position = Vector2(position[0], position[1])
 
-    #TODO: This function is almost exactly to player_base's _position_based_on_display_scale
+                if self.on_screen(tile_absolute_position):
+                    tile_position = self._tile_position_based_on_display_scale(tile_absolute_position)
+                    sprite_in_position = room_1.positions[str_position]
+
+                    self.game_display.blit(self.sprite.sheet, tile_position.to_tuple(), self.sprite.get_sprite(sprite_in_position))
+
+    #TODO: This function is almost equal to player_base's _position_based_on_display_scale
     def _tile_position_based_on_display_scale(self, position):
         camera_based_position = self.main_camera.get_position_based_on_camera(position)
 
@@ -47,3 +52,20 @@ class LevelBase(GameObject):
 
     def _update_scale(self):
         self.sprite._resize_sprites(self.main_camera.display_scale)
+
+    #TODO: This function is almost equal to player_base's get_rect (maybe create a Sprite-related class?)
+    def get_rect(self, tile_position):
+        return Rect(    tile_position.x, tile_position.y, 
+                        self.sprite.original_sprite_size.x, self.sprite.original_sprite_size.y)
+
+    def on_screen(self, tile_position):
+        object_rect = self.get_rect(tile_position)
+        screen_rect = self.main_camera.get_rect()
+
+        if( object_rect.x + object_rect.w > screen_rect.x and
+            object_rect.x < screen_rect.x + screen_rect.w and
+            object_rect.y + object_rect.h > screen_rect.y and
+            object_rect.y < screen_rect.y + screen_rect.h ):
+            return True
+
+        return False
