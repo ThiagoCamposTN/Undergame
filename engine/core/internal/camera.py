@@ -7,7 +7,6 @@ class Camera(GameObject):
         self.game_manager = game_manager
         self.transform.position = position
         self.display_scale = zoom
-        self.delta = Vector2.zero()
 
     def zoom(self, factor):
         self.display_scale = Vector2.one() * factor
@@ -24,3 +23,7 @@ class Camera(GameObject):
                                 screen_size.y // (self.display_scale.y * 2))
 
         return position + half_screen_scaled - self.transform.position
+
+    def get_scaled_screen_size(self):
+        return Vector2( self.get_screen_size().x // self.display_scale.x,
+                        self.get_screen_size().y // self.display_scale.y )

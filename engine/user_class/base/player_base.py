@@ -26,7 +26,7 @@ class PlayerBase(GameObject):
         if self.animator:
             self.animator.update()
 
-            if self.sprite:
+            if self.sprite and self.on_screen():
                 self.game_display.blit(self.sprite.sheet, self._position_based_on_display_scale().to_tuple(), self.sprite.get_sprite(self.animator.frame))
 
     def _position_based_on_display_scale(self):
@@ -39,3 +39,20 @@ class PlayerBase(GameObject):
 
     def _update_scale(self):
         self.sprite._resize_sprites(self.main_camera.display_scale)
+
+    def on_screen(self):
+        player_top_left = self.transform.position
+        player_bottom_right = self.transform.position + self.sprite.original_sprite_size
+
+        half_screen_size = self.main_camera.get_scaled_screen_size() // 2
+
+        screen_top_left = self.main_camera.transform.position - half_screen_size
+        screen_bottom_right = self.main_camera.transform.position + half_screen_size
+
+        if( player_bottom_right.x > screen_top_left.x and
+            player_top_left.x < screen_bottom_right.x and
+            player_bottom_right.y > screen_top_left.y and
+            player_top_left.y < screen_bottom_right.y ):
+            return True
+
+        return False
