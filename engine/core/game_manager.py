@@ -22,7 +22,8 @@ class GameManager:
         self.game_finished = False
         self.fps = 60
 
-        self.main_camera = Camera(self, Vector2(self.game_display.get_size()) // 2, Vector2(2, 2))
+        half_display_size = Vector2(self.game_display.get_size()) // 2
+        self.main_camera = Camera(self, half_display_size, Vector2(2, 2))
 
     def start(self):
         pygame.init()
