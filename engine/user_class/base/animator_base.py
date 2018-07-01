@@ -3,7 +3,7 @@ from engine.core.component import animation
 
 class AnimatorBase:
     def __init__(self, sprite, path):
-        self.sprite = sprite
+        self.spritesheet = sprite
         self.animations = animation.get_animations(path)
         
         self.playing_animation = None

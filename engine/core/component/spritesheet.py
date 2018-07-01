@@ -1,61 +1,60 @@
 import pygame
 from engine.core.internal.transform import Vector2
 from pygame.surface import Surface
+from pygame.rect import Rect
 
 class Spritesheet:
-    def __init__(self, image_path, size, display_scale):
-        self.original_sheet = self._load_sprite(image_path)
-        self.original_sprite_size = size
+    def __init__(self, image_path, sprites_data, display_scale):
+        self.display_scale = Vector2.one()
+        self.sheet = self._load_spritesheet(image_path)
+        self.sprites = {}
+        
+        self._resize_sprites(new_scale=display_scale, sprites_data=sprites_data)
 
-        self._resize_sprites(display_scale)
-
-    def _load_sprite(self, image_path):
+    def _load_spritesheet(self, image_path):
         if image_path != '':
             return pygame.image.load(image_path)
         
         return Surface((1, 1))
 
-    def _resize_sprites(self, scale):
-        self.display_scale = scale
+    def _get_all_sprites(self, old_scale=Vector2.one(), input_data=None):
+        sprites = {}
 
-        self.sprite_size = self._get_sprite_size()
-        self.sheet_size = self._get_sheet_size()
+        data = input_data or self.sprites
 
-        self.sheet = pygame.transform.scale(self.original_sheet, self.sheet_size.to_tuple())
+        for i in data:
+            if input_data:
+                sprite_data = Rect(data[i][0], data[i][1], data[i][2], data[i][3])
+            else:
+                sprite_data = data[i]
+           
+            sprites[i] = Rect(  sprite_data.x * self.display_scale.x // old_scale.x,
+                                sprite_data.y * self.display_scale.y // old_scale.y, 
+                                sprite_data.w * self.display_scale.x // old_scale.x,
+                                sprite_data.h * self.display_scale.y // old_scale.y)
 
-        self._get_sprites()
+        return sprites
 
-    def _get_sprite_size(self):
-        return Vector2(self.original_sprite_size.x * self.display_scale.x, self.original_sprite_size.y * self.display_scale.y)
+    def _resize_sprites(self, new_scale, sprites_data=None):
+        old_scale = self.display_scale
+        self.display_scale = new_scale
+        
+        self.sheet = pygame.transform.scale(self.sheet, 
+                                            self._get_sheet_size(old_scale).to_tuple())
 
-    def _get_sheet_size(self):
-        width, height = self.original_sheet.get_rect().size
-        return Vector2(width * self.display_scale.x, height * self.display_scale.y)
+        self.sprites = self._get_all_sprites(old_scale=old_scale, input_data=sprites_data)
 
-    def _get_sprites(self):
-        '''
-        Calculates all the sprites positions based on the given size,
-        considering all sprites having an offset by 1 horizontally and vertically
-        '''
-        self.cells = []
+    def _get_sheet_size(self, old_scale=Vector2.one()):
+        width, height = self.sheet.get_rect().size
 
-        sprite_x = self.sprite_size.x
-        sprite_y = self.sprite_size.y
+        return Vector2( width * self.display_scale.x // old_scale.x,
+                        height * self.display_scale.y // old_scale.y)
 
-        rows = self._get_rows()
-        colls = self._get_colls()
+    def get_sprite_rect(self, name):
+        return self.sprites[name]
 
-        # offset is the pixels of the borders of the sheet and between sprites
-        offset = self.display_scale
+    def get_sprite_name_by_index(self, index):
+        return list(self.sprites.keys())[index]
 
-        for i in range(rows * colls):
-            self.cells.append(((i % colls)*(sprite_x + offset.x) + offset.x, int(i / colls)*(sprite_y + offset.y) + offset.y, sprite_x, sprite_y))
-
-    def get_sprite(self, number):
-        return self.cells[number]
-
-    def _get_rows(self):
-        return int(self.sheet_size.y / self.sprite_size.y)
-
-    def _get_colls(self):
-        return int(self.sheet_size.x / self.sprite_size.x)
+    def get_sprite_rect_by_index(self, index):
+        return self.get_sprite_rect(self.get_sprite_name_by_index(index))

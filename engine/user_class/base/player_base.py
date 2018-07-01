@@ -4,6 +4,7 @@ from engine.core.component.spritesheet import Spritesheet
 from engine.user_class.animator import Animator
 from engine.core.internal.transform import Vector2
 from pygame.rect import Rect
+from engine.core import utils
 
 class PlayerBase(GameObject):
     def _awake(self, game_display, main_camera):
@@ -17,18 +18,27 @@ class PlayerBase(GameObject):
         self._game_update()
         super()._late_update()
 
-    def load_sprite(self, path, sprite_size):
-        self.sprite = Spritesheet(path, sprite_size, self.main_camera.display_scale)
-
+    def load_spritesheet(self, path):
         if(path != ''):
-            self.animator = Animator(self.sprite.cells, path)
+            sheet_data = utils.get_file_data(path)
+
+            self.spritesheet = Spritesheet(path, sheet_data["sprites"], self.main_camera.display_scale)
+            self.animator = Animator(self.spritesheet, path)
 
     def _game_update(self):
         if self.animator:
             self.animator.update()
 
-            if self.sprite and self.on_screen():
-                self.game_display.blit(self.sprite.sheet, self._position_based_on_display_scale().to_tuple(), self.sprite.get_sprite(self.animator.frame))
+            sprite_name = self.animator.frame
+            sprite = self.spritesheet.get_sprite_rect(sprite_name)
+            display_scale = self.main_camera.display_scale
+
+            player_rect = Rect( self.transform.position.x, self.transform.position.y,
+                                sprite.w // display_scale.x, sprite.h // display_scale.y)
+
+            if self.spritesheet and self.on_screen(player_rect):
+                player_position = self._position_based_on_display_scale()
+                self.game_display.blit(self.spritesheet.sheet, player_position.to_tuple(), sprite)
 
     def _position_based_on_display_scale(self):
         camera_based_position = self.main_camera.get_position_based_on_camera(self.transform.position)
@@ -39,8 +49,4 @@ class PlayerBase(GameObject):
         return Vector2(actual_position)
 
     def _update_scale(self):
-        self.sprite._resize_sprites(self.main_camera.display_scale)
-
-    def get_rect(self):
-        return Rect(    self.transform.position.x, self.transform.position.y, 
-                        self.sprite.original_sprite_size.x, self.sprite.original_sprite_size.y)
+        self.spritesheet._resize_sprites(self.main_camera.display_scale)

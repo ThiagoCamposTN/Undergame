@@ -1,6 +1,6 @@
 import pygame
 import configparser
-from engine.editor.manager import EditorManager
+from engine.editor.editor_manager import EditorManager
 from engine.core.internal.transform import Vector2
 
 def display_config():

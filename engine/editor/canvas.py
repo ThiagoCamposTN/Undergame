@@ -30,17 +30,19 @@ class Canvas(GameObject):
         super()._late_update()
 
     def _screen_update(self):
-        if self.sprite:
+        if self.spritesheet:
             for str_position in self.room.positions:
-                position = self.room.position_from_tuple_str(str_position)
+                position = self.room.get_position(str_position)
 
                 tile_position = self._tile_position_based_on_display_scale(Vector2(position[0], position[1]))
                 sprite_in_position = self.room.positions[str_position]
-                self.game_display.blit(self.sprite.sheet, tile_position, self.sprite.get_sprite(sprite_in_position))
+
+                self.game_display.blit(self.spritesheet.sheet, tile_position, self.spritesheet.get_sprite_rect(sprite_in_position))
         
         selector_position = self._selector_position_based_on_display_scale(self.selector.transform.position)
         self.selector_grid_position = Vector2(selector_position[0], selector_position[1])
-        self.game_display.blit(self.sprite.sheet, selector_position, self.sprite.get_sprite(self.selector.get_current_sprite()))
+        selector_index = self.selector.get_current_sprite()
+        self.game_display.blit(self.spritesheet.sheet, selector_position, self.spritesheet.get_sprite_rect_by_index(selector_index))
 
     def _tile_position_based_on_display_scale(self, position):
         actual_position = ( self.display_scale.x * position.x, 
@@ -57,15 +59,17 @@ class Canvas(GameObject):
         return selector_position
 
     def _update_scale(self):
-        self.sprite._resize_sprites(self.main_camera.display_scale)
+        self.spritesheet._resize_sprites(self.main_camera.display_scale)
 
-    def set_room(self, room):
-        self.room = Room(utils.get_file_data(self.data_path)[room])
+    def set_room(self, room_id):
+        self.room = Room(utils.get_file_data(self.data_path)[room_id])
 
     def start(self):
-        self.sprite = Spritesheet(self.spritesheet_path, Vector2(20, 20), self.main_camera.display_scale)
+        sheet_data = utils.get_file_data(self.data_path)
+
+        self.spritesheet = Spritesheet(self.spritesheet_path, sheet_data["sprites"], self.main_camera.display_scale)
         self.set_room(self.room_id)
-        self.selector.set_sprite_quantity(len(self.sprite.cells))
+        self.selector.set_sprite_quantity(len(self.spritesheet.sprites))
 
     def update(self):
         keys = pygame.key.get_pressed()
@@ -80,8 +84,8 @@ class Canvas(GameObject):
     def check_mouse_click(self, mouse):
         if mouse[0]:
             new_tile_position = (self.selector_grid_position.x // self.display_scale.x, self.selector_grid_position.y // self.display_scale.y)
-            
-            self.room.positions[str(new_tile_position)] = self.selector.get_current_sprite()
+            sprite_index = self.selector.get_current_sprite()
+            self.room.positions[str(new_tile_position)] = self.spritesheet.get_sprite_name_by_index(sprite_index)
 
     def check_sprite_change(self, keys):
         changed_delta = None
