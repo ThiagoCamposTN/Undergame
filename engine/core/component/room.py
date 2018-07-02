@@ -1,4 +1,6 @@
 from engine.core.internal.transform import Vector2
+from pygame.rect import Rect
+from engine.core.component.collider import Collider
 
 class Room:
     def __init__(self, data, name):
@@ -11,6 +13,8 @@ class Room:
         for sprites in spritesheet["sprites"]:
             for position in sprites['positions']:
                 self.positions[str(position)[1:-1]] = sprites['name']
+
+        self.colliders = Collider(spritesheet["collisions"])
 
     def get_position(self, position_string):
         splitted_position = position_string.split(",")
