@@ -20,11 +20,11 @@ class LevelBase(GameObject):
         self._game_update()
         super()._late_update()
 
-    def load_spritesheet(self):
-        sheet_data_path = os.path.join('resources/spritesheets/', self.room.spritesheet_name + '.json')
+    def load_spritesheet(self, category):
+        sheet_data_path = os.path.join('resources', category, self.room.spritesheet_name + '.json')
         sheet_data = utils.get_file_data(sheet_data_path)
 
-        sheet_image_path = os.path.join('resources/spritesheets/', sheet_data['file'])
+        sheet_image_path = os.path.join('resources', category, sheet_data['file'])
         
         self.spritesheet = Spritesheet(sheet_image_path, sheet_data["sprites"], self.main_camera.display_scale)
 
@@ -34,7 +34,7 @@ class LevelBase(GameObject):
 
         self.room = Room(room_data, room_name)
 
-        self.load_spritesheet()
+        self.load_spritesheet('spritesheets')
 
     def _game_update(self):
         if self.spritesheet:

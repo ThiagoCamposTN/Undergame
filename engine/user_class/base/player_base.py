@@ -19,11 +19,12 @@ class PlayerBase(GameObject):
         self._game_update()
         super()._late_update()
 
-    def load_spritesheet(self, name):
-        if(name != ''):
-            char_sheet_path = os.path.join('resources/characters/', name + '.png')
-            char_data_path = os.path.join('resources/characters/', name + '.json')
+    def load_spritesheet(self, category='', name=''):
+        if(category != name != ''):
+            char_data_path = os.path.join('resources', category, name + '.json')
             char_data = utils.get_file_data(char_data_path)
+
+            char_sheet_path = os.path.join('resources', category, char_data['file'])
 
             self.spritesheet = Spritesheet(char_sheet_path, char_data["sprites"], self.main_camera.display_scale)
             self.animator = Animator(self.spritesheet, char_data_path)

@@ -39,7 +39,7 @@ class MyTest(unittest.TestCase):
         self.player._awake(self.game_manager.game_display, self.game_manager.main_camera)
         self.player._start()
 
-        self.player.load_spritesheet('')
+        self.player.load_spritesheet()
 
         self.player.main_camera.transform.position = Vector2(0, 0)
         self.player.transform.position = Vector2(0, 0)
@@ -51,7 +51,7 @@ class MyTest(unittest.TestCase):
         self.player._awake(self.game_manager.game_display, self.game_manager.main_camera)
         self.player._start()
 
-        self.player.load_spritesheet('')
+        self.player.load_spritesheet()
 
         self.player.transform.position = Vector2(-400, -300)
         self.game_manager.main_camera.transform.position = Vector2(0, 0)
@@ -64,7 +64,7 @@ class MyTest(unittest.TestCase):
         self.player._awake(self.game_manager.game_display, self.game_manager.main_camera)
         self.player._start()
 
-        self.player.load_spritesheet('')
+        self.player.load_spritesheet()
 
         self.player.transform.position = Vector2(400, 300)
         self.game_manager.main_camera.transform.position = Vector2(0, 0)
@@ -77,7 +77,7 @@ class MyTest(unittest.TestCase):
         self.player._awake(self.game_manager.game_display, self.game_manager.main_camera)
         self.player._start()
 
-        self.player.load_spritesheet('')
+        self.player.load_spritesheet()
 
         self.player.transform.position = Vector2(0, 0)
         self.game_manager.main_camera.transform.position = Vector2(-400, -300)
@@ -90,7 +90,7 @@ class MyTest(unittest.TestCase):
         self.player._awake(self.game_manager.game_display, self.game_manager.main_camera)
         self.player._start()
 
-        self.player.load_spritesheet('')
+        self.player.load_spritesheet()
 
         self.player.transform.position = Vector2(0, 0)
         self.game_manager.main_camera.transform.position = Vector2(400, 300)
@@ -103,7 +103,7 @@ class MyTest(unittest.TestCase):
         self.player._awake(self.game_manager.game_display, self.game_manager.main_camera)
         self.player._start()
 
-        self.player.load_spritesheet('')
+        self.player.load_spritesheet()
 
         self.player.transform.position = Vector2(-400, -300)
         self.game_manager.main_camera.transform.position = Vector2(400, 300)
@@ -116,7 +116,7 @@ class MyTest(unittest.TestCase):
         self.player._awake(self.game_manager.game_display, self.game_manager.main_camera)
         self.player._start()
 
-        self.player.load_spritesheet('')
+        self.player.load_spritesheet()
 
         self.player.transform.position = Vector2(800, 600)
         self.game_manager.main_camera.transform.position = Vector2(800, 600)

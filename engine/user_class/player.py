@@ -4,7 +4,7 @@ from engine.core.internal.transform import Vector2
 
 class Player(PlayerBase):
     def start(self):
-        self.load_spritesheet('frisk')
+        self.load_spritesheet('characters', 'frisk')
         # As the Player position is not set: position == Vector2.zero()
         #self.main_camera.transform.position = self.transform.position
         

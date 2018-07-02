@@ -1,4 +1,5 @@
 {
+    "file" : "frisk.png",
     "sprites" :
     [
         { "name" : "front1", "rect" : [1, 1, 19, 29] },
