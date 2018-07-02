@@ -1,10 +1,10 @@
 from engine.core import utils
 
 class Animation():
-    def __init__(self, name, info):
+    def __init__(self, name, frames, duration):
         self.name = name
-        self.frames = info[0]
-        self.durations = [i * 1000 for i in info[1]]
+        self.frames = frames
+        self.durations = [time * 1000 for time in duration]
 
     def get_frame_duration(self, index):
         return self.durations[index]
@@ -13,11 +13,13 @@ class Animation():
         return self.frames[index]
 
 def get_animations(path):
-    data = utils.get_file_data(path)["animations"]
+    animation_data = utils.get_file_data(path)["animations"]
 
     animations = {}
 
-    for animation_name in data:
-        animations[animation_name] = Animation(animation_name, data[animation_name])
+    for animation in animation_data:
+        animations[animation['name']] = Animation(  animation['name'], 
+                                                    animation['frames'], 
+                                                    animation['duration'])
 
     return animations

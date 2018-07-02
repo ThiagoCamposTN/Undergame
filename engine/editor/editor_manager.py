@@ -5,12 +5,12 @@ from engine.editor.canvas import Canvas
 from engine.core.internal.camera import Camera
 
 class EditorManager:
-    def __init__(self, game_display, grid_size, spritesheet_path, data_path, room_id):
+    def __init__(self, game_display, grid_size, spritesheet_path, data_path, room_name):
         self.game_display = game_display
         self.grid_size = grid_size
         self.spritesheet_path = spritesheet_path
         self.data_path = data_path
-        self.room_id = room_id
+        self.room_name = room_name
         self.canvas = Canvas()
 
         self.main_camera = Camera(self, Vector2(self.game_display.get_size()) // 2, Vector2(2, 2))
@@ -30,7 +30,7 @@ class EditorManager:
 
         self.canvas._awake(self.game_display, self.display_scale, self.main_camera)
 
-        self.canvas._start(self.grid_size, self.spritesheet_path, self.data_path, self.room_id)
+        self.canvas._start(self.grid_size, self.spritesheet_path, self.data_path, self.room_name)
         
         self.main_loop()
 

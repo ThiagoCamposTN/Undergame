@@ -10,15 +10,15 @@ def display_config():
     resolution = (int(config['General']['Width']), int(config['General']['Height']))
     grid_size = Vector2(int(config['Editor']['GridSizeX']), int(config['Editor']['GridSizeY']))
     spritesheet_path, data_path = str(config['Editor']['Spritesheet']), str(config['Editor']['Data'])
-    room_id = str(config['Editor']['RoomId'])
+    room_name = str(config['Editor']['RoomName'])
 
-    return pygame.display.set_mode(resolution), grid_size, spritesheet_path, data_path, room_id
+    return pygame.display.set_mode(resolution), grid_size, spritesheet_path, data_path, room_name
 
 
 def main():
-    display, grid_size, spritesheet_path, data_path, room_id = display_config()
+    display, grid_size, spritesheet_path, data_path, room_name = display_config()
 
-    manager = EditorManager(display, grid_size, spritesheet_path, data_path, room_id)
+    manager = EditorManager(display, grid_size, spritesheet_path, data_path, room_name)
     manager.start()
 
 if __name__ == "__main__":

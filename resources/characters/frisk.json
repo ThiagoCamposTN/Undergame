@@ -1,20 +1,34 @@
 {
-    "sprites" : {
-        "front1"    : [1, 1, 19, 29],
-        "front2"    : [21, 1, 19, 29],
-        "front3"    : [41, 1, 19, 29],
-        "back1"     : [1, 31, 19, 29],
-        "back2"     : [21, 31, 19, 29],
-        "back3"     : [41, 31, 19, 29],
-        "right1"    : [1, 61, 19, 29],
-        "right2"    : [21, 61, 19, 29],
-        "left1"     : [1, 91, 19, 29],
-        "left2"     : [21, 91, 19, 29]
-    },
-    "animations" : {
-        "walk_forward"  : [["front1", "front2", "front1", "front3"], [0.15, 0.15, 0.15, 0.15]],
-        "walk_back"     : [["back1", "back2", "back1", "back3"], [0.15, 0.15, 0.15, 0.15]],
-        "walk_right"    : [["right1", "right2"], [0.15, 0.15]],
-        "walk_left"     : [["left1", "left2"], [0.15, 0.15]]
-    }
+    "sprites" :
+    [
+        { "name" : "front1", "rect" : [1, 1, 19, 29] },
+        { "name" : "front2", "rect" : [21, 1, 19, 29] },
+        { "name" : "front3", "rect" : [41, 1, 19, 29] },
+        { "name" : "back1", "rect" : [1, 31, 19, 29] },
+        { "name" : "back2", "rect" : [21, 31, 19, 29] },
+        { "name" : "back3", "rect" : [41, 31, 19, 29] },
+        { "name" : "right1", "rect" : [1, 61, 19, 29] },
+        { "name" : "right2", "rect" : [21, 61, 19, 29] },
+        { "name" : "left1", "rect" : [1, 91, 19, 29] },
+        { "name" : "left2", "rect" : [21, 91, 19, 29] }
+    ],
+    "animations" :
+    [
+        {   "name" : "walk_forward",
+            "frames" : ["front1", "front2", "front1", "front3"],
+            "duration" : [0.15, 0.15, 0.15, 0.15]
+        },
+        {   "name" : "walk_back",
+            "frames" : ["back1", "back2", "back1", "back3"],
+            "duration" : [0.15, 0.15, 0.15, 0.15]
+        },
+        {   "name" : "walk_right",
+            "frames" : ["right1", "right2"],
+            "duration" : [0.15, 0.15]
+        },
+        {   "name" : "walk_left",
+            "frames" : ["left1", "left2"],
+            "duration" : [0.15, 0.15]
+        }
+    ]
 }

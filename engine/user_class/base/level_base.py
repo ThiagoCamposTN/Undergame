@@ -5,6 +5,7 @@ from engine.core import utils
 from engine.core.internal.transform import Vector2
 from engine.core.component.room import Room
 from pygame.rect import Rect
+import os
 
 class LevelBase(GameObject):
     def _awake(self, game_display, main_camera):
@@ -19,27 +20,31 @@ class LevelBase(GameObject):
         self._game_update()
         super()._late_update()
 
-    def load_spritesheet(self, path):
-        sheet_data = utils.get_file_data(path)
+    def load_spritesheet(self):
+        sheet_data_path = os.path.join('resources/spritesheets/', self.room.spritesheet_name + '.json')
+        sheet_data = utils.get_file_data(sheet_data_path)
 
-        self.spritesheet = Spritesheet(path, sheet_data["sprites"], self.main_camera.display_scale)
-        self.add_room(sheet_data["room_1"])
+        sheet_image_path = os.path.join('resources/spritesheets/', sheet_data['file'])
+        
+        self.spritesheet = Spritesheet(sheet_image_path, sheet_data["sprites"], self.main_camera.display_scale)
 
-    def add_room(self, room_data):
-        self.rooms.append(Room(room_data))
+    def load_room(self, room_name):
+        room_path = os.path.join('resources/rooms/', room_name + '.json')
+        room_data = utils.get_file_data(room_path)
+
+        self.room = Room(room_data, room_name)
+
+        self.load_spritesheet()
 
     def _game_update(self):
         if self.spritesheet:
-            # TODO: Change to be not hardcoded
-            room_1 = self.rooms[0]
-
-            for position_string in room_1.positions:
-                position = room_1.get_position(position_string)
-                sprite_name = room_1.sprite_name_in_position(position_string)
+            for position_string in self.room.positions:
+                position = self.room.get_position(position_string)
+                sprite_name = self.room.sprite_name_in_position(position_string)
                 
                 sprite = self.spritesheet.get_sprite_rect(sprite_name)
                 display_scale = self.main_camera.display_scale
-                tile_rect = Rect(   position[0], position[1], 
+                tile_rect = Rect(   position.x, position.y, 
                                     sprite.w // display_scale.x, sprite.h // display_scale.y)
 
                 if self.on_screen(tile_rect):

@@ -5,6 +5,7 @@ from engine.core.internal.transform import Vector2
 from engine.core import utils
 from engine.editor.selector import Selector
 from engine.core.component.room import Room
+import os
 
 class Canvas(GameObject):
     def _awake(self, game_display, display_scale, main_camera):
@@ -18,11 +19,11 @@ class Canvas(GameObject):
         self.selector_grid_position = Vector2.zero()
         self.display_scale = display_scale
 
-    def _start(self, grid_size, spritesheet_path, data_path, room_id):
+    def _start(self, grid_size, spritesheet_path, data_path, room_name):
         self.grid_size = grid_size
         self.spritesheet_path = spritesheet_path
         self.data_path = data_path
-        self.room_id = room_id
+        self.room_name = room_name
         super()._start()
         
     def _late_update(self):
@@ -34,7 +35,7 @@ class Canvas(GameObject):
             for str_position in self.room.positions:
                 position = self.room.get_position(str_position)
 
-                tile_position = self._tile_position_based_on_display_scale(Vector2(position[0], position[1]))
+                tile_position = self._tile_position_based_on_display_scale(position)
                 sprite_in_position = self.room.positions[str_position]
 
                 self.game_display.blit(self.spritesheet.sheet, tile_position, self.spritesheet.get_sprite_rect(sprite_in_position))
@@ -61,14 +62,17 @@ class Canvas(GameObject):
     def _update_scale(self):
         self.spritesheet._resize_sprites(self.main_camera.display_scale)
 
-    def set_room(self, room_id):
-        self.room = Room(utils.get_file_data(self.data_path)[room_id])
+    def load_room(self, room_name):
+        room_path = os.path.join('resources/rooms/', room_name + '.json')
+        room_data = utils.get_file_data(room_path)
+
+        self.room = Room(room_data, room_name)
 
     def start(self):
         sheet_data = utils.get_file_data(self.data_path)
 
         self.spritesheet = Spritesheet(self.spritesheet_path, sheet_data["sprites"], self.main_camera.display_scale)
-        self.set_room(self.room_id)
+        self.load_room(self.room_name)
         self.selector.set_sprite_quantity(len(self.spritesheet.sprites))
 
     def update(self):
@@ -85,7 +89,7 @@ class Canvas(GameObject):
         if mouse[0]:
             new_tile_position = (self.selector_grid_position.x // self.display_scale.x, self.selector_grid_position.y // self.display_scale.y)
             sprite_index = self.selector.get_current_sprite()
-            self.room.positions[str(new_tile_position)] = self.spritesheet.get_sprite_name_by_index(sprite_index)
+            self.room.positions[str(new_tile_position)[1:-1]] = self.spritesheet.get_sprite_name_by_index(sprite_index)
 
     def check_sprite_change(self, keys):
         changed_delta = None
@@ -103,6 +107,6 @@ class Canvas(GameObject):
             elif changed_delta == 1:
                 self.selector.back_sprite()
             elif changed_delta == 2:
-                self.room.save_room(self.room_id, self.data_path)
+                self.room.save_room(self.room_name, self.data_path)
 
         self.last_change = changed_delta

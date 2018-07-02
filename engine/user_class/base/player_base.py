@@ -5,6 +5,7 @@ from engine.user_class.animator import Animator
 from engine.core.internal.transform import Vector2
 from pygame.rect import Rect
 from engine.core import utils
+import os
 
 class PlayerBase(GameObject):
     def _awake(self, game_display, main_camera):
@@ -18,12 +19,14 @@ class PlayerBase(GameObject):
         self._game_update()
         super()._late_update()
 
-    def load_spritesheet(self, path):
-        if(path != ''):
-            sheet_data = utils.get_file_data(path)
+    def load_spritesheet(self, name):
+        if(name != ''):
+            char_sheet_path = os.path.join('resources/characters/', name + '.png')
+            char_data_path = os.path.join('resources/characters/', name + '.json')
+            char_data = utils.get_file_data(char_data_path)
 
-            self.spritesheet = Spritesheet(path, sheet_data["sprites"], self.main_camera.display_scale)
-            self.animator = Animator(self.spritesheet, path)
+            self.spritesheet = Spritesheet(char_sheet_path, char_data["sprites"], self.main_camera.display_scale)
+            self.animator = Animator(self.spritesheet, char_data_path)
 
     def _game_update(self):
         if self.animator:
