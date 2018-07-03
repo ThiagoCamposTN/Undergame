@@ -14,7 +14,7 @@ class Room:
             for position in sprites['positions']:
                 self.positions[str(position)[1:-1]] = sprites['name']
 
-        self.colliders = Collider(spritesheet["collisions"])
+        self.collider = Collider(spritesheet["collisions"])
 
     def get_position(self, position_string):
         splitted_position = position_string.split(",")

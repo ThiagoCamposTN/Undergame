@@ -10,7 +10,8 @@ import os
 class LevelBase(GameObject):
     def _awake(self, game_display, main_camera):
         self.spritesheet = None
-        self.rooms = []
+        #self.rooms = []
+        self.debug_sheet = None
         super()._awake(game_display, main_camera)
 
     def _start(self):
@@ -27,6 +28,14 @@ class LevelBase(GameObject):
         sheet_image_path = os.path.join('resources', category, sheet_data['file'])
         
         self.spritesheet = Spritesheet(sheet_image_path, sheet_data["sprites"], self.main_camera.display_scale)
+    
+    def load_debug_sheet(self, category):
+        sheet_data_path = os.path.join('resources', category, 'debug.json')
+        sheet_data = utils.get_file_data(sheet_data_path)
+
+        sheet_image_path = os.path.join('resources', category, sheet_data['file'])
+        
+        self.debug_sheet = Spritesheet(sheet_image_path, sheet_data["sprites"], self.main_camera.display_scale)
 
     def load_room(self, room_name):
         room_path = os.path.join('resources/rooms/', room_name + '.json')
@@ -50,6 +59,24 @@ class LevelBase(GameObject):
                 if self.on_screen(tile_rect):
                     tile_position = self._tile_position_based_on_display_scale(tile_rect)
                     self.game_display.blit(self.spritesheet.sheet, tile_position.to_tuple(), sprite)
+
+        self.update_collision_sprites()
+
+    def update_collision_sprites(self):
+        for collision in self.room.collider.collisions:
+            if collision.type == 'rectangle':
+                for rect in collision.rects:
+                    display_scale = self.main_camera.display_scale
+                    sprite = self.debug_sheet.get_sprite_rect('collisionBox')
+                    
+                    tile_rect = Rect(   rect.x, rect.y, 
+                                        sprite.w // display_scale.x, sprite.h // display_scale.y)
+
+                    if self.on_screen(tile_rect):
+                        tile_position = self._tile_position_based_on_display_scale(tile_rect)
+                        self.game_display.blit(self.debug_sheet.sheet, tile_position.to_tuple(), sprite)
+
+                    #TODO: NEXT OBJECTIVE: strech the collision sprites if desired
 
     #TODO: This function is very similar to player_base's _position_based_on_display_scale
     def _tile_position_based_on_display_scale(self, rect):
