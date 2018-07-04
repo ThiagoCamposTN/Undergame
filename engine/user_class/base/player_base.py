@@ -33,16 +33,22 @@ class PlayerBase(GameObject):
         if self.animator:
             self.animator.update()
 
+            # current sprite frame name
             sprite_name = self.animator.frame
-            sprite = self.spritesheet.get_sprite_rect(sprite_name)
-            display_scale = self.main_camera.display_scale
+            # sprite position within the spritesheet
+            sprite_rect = self.spritesheet.get_sprite_rect(sprite_name)
+            # 'cut' the sprite out from the sprite sheet
+            sprite = self.spritesheet.sheet.subsurface(sprite_rect)
 
+            # the current camera scale
+            display_scale = self.main_camera.display_scale
+            # player's position and sprite scale on the screen
             player_rect = Rect( self.transform.position.x, self.transform.position.y,
-                                sprite.w // display_scale.x, sprite.h // display_scale.y)
+                                sprite_rect.w // display_scale.x, sprite_rect.h // display_scale.y)
 
             if self.spritesheet and self.on_screen(player_rect):
                 player_position = self._position_based_on_display_scale()
-                self.game_display.blit(self.spritesheet.sheet, player_position.to_tuple(), sprite)
+                self.game_display.blit(sprite, player_position.to_tuple())
 
     def _position_based_on_display_scale(self):
         camera_based_position = self.main_camera.get_position_based_on_camera(self.transform.position)

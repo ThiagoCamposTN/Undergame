@@ -34,11 +34,13 @@ class Canvas(GameObject):
         if self.spritesheet:
             for str_position in self.room.positions:
                 position = self.room.get_position(str_position)
-
                 tile_position = self._tile_position_based_on_display_scale(position)
                 sprite_in_position = self.room.positions[str_position]
 
-                self.game_display.blit(self.spritesheet.sheet, tile_position, self.spritesheet.get_sprite_rect(sprite_in_position))
+                # 'cut' the sprite out from the sprite sheet
+                sprite = self.spritesheet.sheet.subsurface(self.spritesheet.get_sprite_rect(sprite_in_position))
+
+                self.game_display.blit(sprite, tile_position)
         
         selector_position = self._selector_position_based_on_display_scale(self.selector.transform.position)
         self.selector_grid_position = Vector2(selector_position[0], selector_position[1])
