@@ -1,4 +1,4 @@
-from engine.core.internal.transform import Vector2
+from pygame.math import Vector2
 from pygame.rect import Rect
 from engine.core.component.spritesheet import Spritesheet
 

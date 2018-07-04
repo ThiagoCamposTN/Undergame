@@ -1,11 +1,12 @@
 import pygame
-from engine.core.internal.transform import Vector2
+from pygame.math import Vector2
 from pygame.surface import Surface
 from pygame.rect import Rect
+import engine
 
 class Spritesheet:
     def __init__(self, image_path, sprites_data, display_scale):
-        self.display_scale = Vector2.one()
+        self.display_scale = Vector2(1, 1)
         self.sheet = self._load_spritesheet(image_path)
         self.sprites = self._get_and_sprites_from_raw_data(sprites_data)
         
@@ -37,16 +38,16 @@ class Spritesheet:
         old_scale = self.display_scale
         self.display_scale = new_scale
         
-        self.sheet = pygame.transform.scale(self.sheet, 
-                                            self._get_sheet_size(old_scale).to_tuple())
+        self.sheet = engine.core.internal.transform.surface_scale(  self.sheet, 
+                                                                    self._get_sheet_size(old_scale))
 
         self._rescale_existing_sprites(old_scale=old_scale)
 
-    def _get_sheet_size(self, old_scale=Vector2.one()):
+    def _get_sheet_size(self, old_scale=Vector2(1, 1)):
         width, height = self.sheet.get_rect().size
 
-        return Vector2( width * self.display_scale.x // old_scale.x,
-                        height * self.display_scale.y // old_scale.y)
+        return Vector2( (width * self.display_scale.x) // old_scale.x,
+                        (height * self.display_scale.y) // old_scale.y)
 
     def get_sprite_rect(self, name):
         return self.sprites[name]

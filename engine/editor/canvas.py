@@ -1,7 +1,7 @@
 import pygame
 from engine.core.internal.behaviour import GameObject
 from engine.core.component.spritesheet import Spritesheet
-from engine.core.internal.transform import Vector2
+from pygame.math import Vector2
 from engine.core import utils
 from engine.editor.selector import Selector
 from engine.core.component.room import Room
@@ -16,7 +16,7 @@ class Canvas(GameObject):
 
         self.selector._awake(game_display, display_scale)
         self.last_change = None
-        self.selector_grid_position = Vector2.zero()
+        self.selector_grid_position = Vector2(0, 0)
         self.display_scale = display_scale
 
     def _start(self, grid_size, spritesheet_path, data_path, room_name):

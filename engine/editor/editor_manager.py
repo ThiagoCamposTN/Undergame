@@ -1,6 +1,6 @@
 import pygame
 from engine.core.static.color import Color
-from engine.core.internal.transform import Vector2
+from pygame.math import Vector2
 from engine.editor.canvas import Canvas
 from engine.core.internal.camera import Camera
 

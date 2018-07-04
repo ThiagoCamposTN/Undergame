@@ -1,5 +1,5 @@
 from engine.core.internal.behaviour import GameObject
-from engine.core.internal.transform import Vector2
+from pygame.math import Vector2
 from pygame.rect import Rect
 
 class Camera(GameObject):
@@ -10,7 +10,7 @@ class Camera(GameObject):
         self.display_scale = zoom
 
     def zoom(self, factor):
-        self.display_scale = Vector2.one() * factor
+        self.display_scale = Vector2(1, 1) * factor
         self.game_manager.update_objects_scale()
 
     def get_screen_size(self):

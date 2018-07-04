@@ -1,50 +1,18 @@
-class Vector2:
-    def __init__(self, first=None, second=None):
-        self.x, self.y = self.convert_if_first_parameter_is_tuple(first, second)
-
-    def convert_if_first_parameter_is_tuple(self, first, second):
-        # if the first parameter is tuple, ignore the second parameter
-
-        if isinstance(first, tuple):
-            return first[0], first[1]
-        else:
-            return first, second
-
-    def zero():
-        return Vector2(0, 0)
-
-    def one():
-        return Vector2(1, 1)
-
-    def to_tuple(position):
-        return (position.x, position.y)
-
-    def __add__(self, b):
-        return Vector2(self.x + b.x, self.y + b.y)
-
-    def __sub__(self, b):
-        return Vector2(self.x - b.x, self.y - b.y)
-
-    def __mul__(self, number):
-        return Vector2(self.x * number, self.y * number) 
-
-    def __truediv__(self, number):
-        return Vector2(self.x / number, self.y / number)
-
-    def __floordiv__(self, number):
-        return Vector2(self.x // number, self.y // number)
-
-    def __eq__(self, vetor_b):
-        return self.x == vetor_b.x and self.y == vetor_b.y
-
-    def __str__(self):
-        return "Vector2({0}, {1})".format(self.x, self.y)
-
-    def __neg__(self):
-        return Vector2(-self.x, -self.y)
+import pygame
 
 class Transform:
     def __init__(self):
-        self.position = Vector2.zero()
+        self.position = pygame.math.Vector2(0, 0)
         self.velocity = 1
-        self.scale = Vector2.one()
+        self.scale = pygame.math.Vector2(1, 1)
+
+def surface_scale(surface, vector2):
+    int_x = int(vector2.x)
+    int_y = int(vector2.y)
+
+    # if the float ends with .0, convert it to int, if not, do nothing
+    x = int_x if int_x == vector2.x else vector2.x
+    y = int_y if int_y == vector2.y else vector2.y
+
+    return pygame.transform.scale(  surface, 
+                                    [x, y])

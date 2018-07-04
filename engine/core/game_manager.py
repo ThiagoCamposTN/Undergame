@@ -1,7 +1,7 @@
 import pygame
 from engine.core.static.color import Color
 from engine.core import hierarchy
-from engine.core.internal.transform import Vector2
+from pygame.math import Vector2
 from engine.core.internal.camera import Camera
 
 class MockManager():

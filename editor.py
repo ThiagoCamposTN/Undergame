@@ -1,7 +1,7 @@
 import pygame
 import configparser
 from engine.editor.editor_manager import EditorManager
-from engine.core.internal.transform import Vector2
+from pygame.math import Vector2
 
 def display_config():
     config = configparser.ConfigParser()

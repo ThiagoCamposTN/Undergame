@@ -2,9 +2,10 @@ import pygame
 from engine.core.internal.behaviour import GameObject
 from engine.core.component.spritesheet import Spritesheet
 from engine.core import utils
-from engine.core.internal.transform import Vector2
+from pygame.math import Vector2
 from engine.core.component.room import Room
 from pygame.rect import Rect
+import engine
 import os
 
 class LevelBase(GameObject):
@@ -34,7 +35,6 @@ class LevelBase(GameObject):
         sheet_data = utils.get_file_data(sheet_data_path)
 
         sheet_image_path = os.path.join('resources', category, sheet_data['file'])
-        
         self.debug_sheet = Spritesheet(sheet_image_path, sheet_data["sprites"], self.main_camera.display_scale)
 
     def load_room(self, room_name):
@@ -64,7 +64,7 @@ class LevelBase(GameObject):
 
                 if self.on_screen(tile_rect):
                     tile_position = self._tile_position_based_on_display_scale(tile_rect)
-                    self.game_display.blit(sprite, tile_position.to_tuple())
+                    self.game_display.blit(sprite, tile_position)
 
         self.update_collision_sprites()
 
@@ -81,11 +81,11 @@ class LevelBase(GameObject):
 
                     sprite_subsurface = self.debug_sheet.sheet.subsurface(sprite_rect)
 
-                    sprite = pygame.transform.scale(sprite_subsurface, 
-                                                    (rect.w * display_scale.x, rect.h * display_scale.x))
+                    sprite = engine.core.internal.transform.surface_scale(  sprite_subsurface, 
+                                                                            Vector2(rect.w * display_scale.x, rect.h * display_scale.x))
                     if self.on_screen(tile_rect):
                         tile_position = self._tile_position_based_on_display_scale(tile_rect)
-                        self.game_display.blit(sprite, tile_position.to_tuple())
+                        self.game_display.blit(sprite, tile_position)
 
     #TODO: This function is very similar to player_base's _position_based_on_display_scale
     def _tile_position_based_on_display_scale(self, rect):

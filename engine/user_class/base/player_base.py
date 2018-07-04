@@ -2,7 +2,7 @@ import pygame
 from engine.core.internal.behaviour import GameObject
 from engine.core.component.spritesheet import Spritesheet
 from engine.user_class.animator import Animator
-from engine.core.internal.transform import Vector2
+from pygame.math import Vector2
 from pygame.rect import Rect
 from engine.core import utils
 import os
@@ -48,7 +48,7 @@ class PlayerBase(GameObject):
 
             if self.spritesheet and self.on_screen(player_rect):
                 player_position = self._position_based_on_display_scale()
-                self.game_display.blit(sprite, player_position.to_tuple())
+                self.game_display.blit(sprite, player_position)
 
     def _position_based_on_display_scale(self):
         camera_based_position = self.main_camera.get_position_based_on_camera(self.transform.position)

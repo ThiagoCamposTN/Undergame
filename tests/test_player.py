@@ -1,7 +1,7 @@
 import unittest
 from engine.user_class.base.player_base import PlayerBase
 from engine.core.internal.camera import Camera
-from engine.core.internal.transform import Vector2
+from pygame.math import Vector2
 from engine.core import config
 from engine.game_display import MockDisplay
 from engine.core.game_manager import MockManager
@@ -19,12 +19,12 @@ class MyTest(unittest.TestCase):
     def setUp(self):
         self.game_manager = MockManager(MockDisplay((800, 600), 0))
         self.game_manager.hierarchy.append(PlayerBase())
-        self.game_manager.main_camera = Camera(self.game_manager, Vector2(self.game_manager.game_display.get_size()) // 2, Vector2.one())
+        self.game_manager.main_camera = Camera(self.game_manager, Vector2(self.game_manager.game_display.get_size()) // 2, Vector2(1, 1))
 
         self.player = self.game_manager.hierarchy[0]
 
     def testPlayerInstantiation(self):
-        self.assertEqual(self.player.transform.position, Vector2.zero())
+        self.assertEqual(self.player.transform.position, Vector2(0, 0))
 
     def testPlayerPosition(self):
         self.player.transform.position = Vector2(10, 20)
