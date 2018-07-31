@@ -1,6 +1,6 @@
 from pygame.math import Vector2
 from pygame.rect import Rect
-from engine.core.component.collider import Collider
+from engine.core.component.collider import MapCollider
 
 class Room:
     def __init__(self, data, name):
@@ -14,7 +14,7 @@ class Room:
             for position in sprites['positions']:
                 self.positions[str(position)[1:-1]] = sprites['name']
 
-        self.collider = Collider(spritesheet["collisions"])
+        self.collider = MapCollider(self, spritesheet["collisions"])
 
     def get_position(self, position_string):
         splitted_position = position_string.split(",")
@@ -26,3 +26,6 @@ class Room:
 
     def save_room(self, room_name, data_path):
         print("saving")
+
+    def on_collision(self, colliding_object):
+        print("{0} is colliding".format(type(self)))

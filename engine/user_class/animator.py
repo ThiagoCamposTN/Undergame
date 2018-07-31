@@ -3,8 +3,10 @@ from engine.core.component.animation import Animation
 
 class Animator(AnimatorBase):
     def start(self):
-        self.initial_animation = self.get_animation('walk_forward')
         self.timer = None
+
+        self.playing_animation = self.get_animation('walk_forward') # initial animation
+        self.frame = self.playing_animation.get_frame(0)
 
     def update(self):
         direction = self.values['direction']
@@ -23,15 +25,10 @@ class Animator(AnimatorBase):
         if direction.x == 1:
             animation = self.get_animation('walk_right')
 
-        if animation == None:
-            if self.playing_animation == None:
-                self.playing_animation = self.initial_animation
+        if self.playing_animation != animation:
+            self.reset_frame_counter()
 
-            self.frame = self.playing_animation.get_frame(0)
-        else:
-            if self.playing_animation != animation:
-                self.reset_frame_counter()
-
+        if animation != None:
             self.playing_animation = animation
 
             if self.timer == None:

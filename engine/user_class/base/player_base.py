@@ -1,6 +1,7 @@
 import pygame
 from engine.core.internal.behaviour import GameObject
 from engine.core.component.spritesheet import Spritesheet
+from engine.core.component.collider import Collider
 from engine.user_class.animator import Animator
 from pygame.math import Vector2
 from pygame.rect import Rect
@@ -18,6 +19,7 @@ class PlayerBase(GameObject):
     def _late_update(self):
         self._game_update()
         super()._late_update()
+        self._update_collider()
 
     def load_spritesheet(self, category='', name=''):
         if(category != name != ''):
@@ -27,6 +29,9 @@ class PlayerBase(GameObject):
             char_sheet_path = os.path.join('resources', category, char_data['file'])
 
             self.spritesheet = Spritesheet(char_sheet_path, char_data["sprites"], self.main_camera.display_scale)
+            
+            self.collider = Collider(self, char_data["collisions"])
+
             self.animator = Animator(self.spritesheet, char_data_path)
 
     def _game_update(self):
@@ -35,6 +40,7 @@ class PlayerBase(GameObject):
 
             # current sprite frame name
             sprite_name = self.animator.frame
+
             # sprite position within the spritesheet
             sprite_rect = self.spritesheet.get_sprite_rect(sprite_name)
             # 'cut' the sprite out from the sprite sheet
@@ -60,3 +66,16 @@ class PlayerBase(GameObject):
 
     def _update_scale(self):
         self.spritesheet._resize_sprites(self.main_camera.display_scale)
+
+    def _update_collider(self):
+        rect = self.get_collider().rect
+        position = self.transform.position
+
+        self.get_collider().rect = Rect(position.x, position.y, 
+                                        rect.w, rect.h)
+
+    def get_collider(self):
+        return self.collider.collisions[self.animator.frame]
+
+    def on_collision(self, colliding_object):
+        print("{0} is colliding".format(type(self)))

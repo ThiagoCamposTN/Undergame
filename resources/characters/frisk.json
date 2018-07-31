@@ -13,6 +13,16 @@
         { "name" : "left1", "rect" : [1, 91, 19, 29] },
         { "name" : "left2", "rect" : [21, 91, 19, 29] }
     ],
+    "collisions": 
+    [
+        {
+            "type": "rectangle",
+            "name": "collisionBox",
+            "sprites": ["front1", "front2", "front3", "back1", "back2", 
+                        "back3", "right1", "right2", "left1", "left2"],
+            "rect": [19, 29]
+        }
+    ],
     "animations" :
     [
         {   "name" : "walk_forward",

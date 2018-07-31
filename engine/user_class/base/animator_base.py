@@ -10,7 +10,7 @@ class AnimatorBase:
         self.frame_counter = 0
 
         self.values = {}
-        self.frame = 0
+        self.frame = ''
 
         self.start()
 

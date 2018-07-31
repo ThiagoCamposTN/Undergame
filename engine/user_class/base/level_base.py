@@ -70,22 +70,20 @@ class LevelBase(GameObject):
 
     def update_collision_sprites(self):
         for collision in self.room.collider.collisions:
-            if collision.type == 'rectangle':
-                i = 0
-                for rect in collision.rects:
-                    display_scale = self.main_camera.display_scale
-                    sprite_rect = self.debug_sheet.get_sprite_rect('collisionBox')
-                    
-                    tile_rect = Rect(   rect.x, rect.y, 
-                                        sprite_rect.w // display_scale.x, sprite_rect.h // display_scale.y)
+            if collision.type == 'rectangle':               
+                display_scale = self.main_camera.display_scale
+                sprite_rect = self.debug_sheet.get_sprite_rect('collisionBox')
+                
+                tile_rect = Rect(   collision.rect.x, collision.rect.y, 
+                                    sprite_rect.w // display_scale.x, sprite_rect.h // display_scale.y)
 
-                    sprite_subsurface = self.debug_sheet.sheet.subsurface(sprite_rect)
+                sprite_subsurface = self.debug_sheet.sheet.subsurface(sprite_rect)
 
-                    sprite = engine.core.internal.transform.surface_scale(  sprite_subsurface, 
-                                                                            Vector2(rect.w * display_scale.x, rect.h * display_scale.x))
-                    if self.on_screen(tile_rect):
-                        tile_position = self._tile_position_based_on_display_scale(tile_rect)
-                        self.game_display.blit(sprite, tile_position)
+                sprite = engine.core.internal.transform.surface_scale(  sprite_subsurface, 
+                                                                        Vector2(collision.rect.w * display_scale.x, collision.rect.h * display_scale.x))
+                if self.on_screen(tile_rect):
+                    tile_position = self._tile_position_based_on_display_scale(tile_rect)
+                    self.game_display.blit(sprite, tile_position)
 
     #TODO: This function is very similar to player_base's _position_based_on_display_scale
     def _tile_position_based_on_display_scale(self, rect):

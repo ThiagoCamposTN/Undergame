@@ -3,6 +3,7 @@ from engine.core.static.color import Color
 from engine.core import hierarchy
 from pygame.math import Vector2
 from engine.core.internal.camera import Camera
+from engine.core.collision_handler import CollisionHandler
 
 class MockManager():
     def __init__(self, game_display):
@@ -25,6 +26,8 @@ class GameManager:
         half_display_size = Vector2(self.game_display.get_size()) // 2
         self.main_camera = Camera(self, half_display_size, Vector2(2, 2))
 
+        self.collision_handler = CollisionHandler()
+
     def start(self):
         pygame.init()
         self.setup()
@@ -34,6 +37,9 @@ class GameManager:
 
         for gameObj in self.hierarchy:
             gameObj._start()
+
+        for gameObj in self.hierarchy:
+            self.collision_handler._append_if_has_collider(gameObj)
         
         self.game_loop()
 
@@ -64,6 +70,8 @@ class GameManager:
 
     def update(self):
         self.game_display.fill(Color.lavender)
+
+        self.collision_handler._check_for_collisions()
 
         for gameObj in self.hierarchy:
             gameObj._update()
