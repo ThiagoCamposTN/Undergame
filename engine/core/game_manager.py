@@ -71,10 +71,10 @@ class GameManager:
     def update(self):
         self.game_display.fill(Color.lavender)
 
-        self.collision_handler._check_for_collisions()
-
         for gameObj in self.hierarchy:
             gameObj._update()
+
+        self.collision_handler._check_for_collision()
 
     def update_objects_scale(self):
         for gameObj in self.hierarchy:
