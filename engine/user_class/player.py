@@ -5,8 +5,6 @@ from pygame.math import Vector2
 class Player(PlayerBase):
     def start(self):
         self.load_spritesheet('characters', 'frisk')
-        # As the Player position is not set: position == Vector2(0, 0)
-        #self.main_camera.transform.position = self.transform.position
         
     def update(self):
         keys = pygame.key.get_pressed()
@@ -18,7 +16,7 @@ class Player(PlayerBase):
 
         self.animator.set_value("direction", direction)
 
-        self.transform.position += direction * self.transform.velocity
+        self.transform.set_position(self.transform.position + direction * self.transform.velocity)
 
         # Camera follows player
-        self.main_camera.transform.position = self.transform.position
+        self.main_camera.transform.set_position(self.transform.position)

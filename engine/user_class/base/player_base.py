@@ -68,14 +68,17 @@ class PlayerBase(GameObject):
         self.spritesheet._resize_sprites(self.main_camera.display_scale)
 
     def _update_collider(self):
-        rect = self.get_collider().rect
+        rect = self.get_collision().rect
         position = self.transform.position
 
-        self.get_collider().rect = Rect(position.x, position.y, 
+        self.get_collision().rect = Rect(position.x, position.y, 
                                         rect.w, rect.h)
 
-    def get_collider(self):
+    def get_collision(self):
         return self.collider.collisions[self.animator.frame]
 
     def on_collision(self, colliding_object):
         print("{0} is colliding".format(type(self)))
+
+    def _get_collider(self):
+        return self.collider

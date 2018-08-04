@@ -82,7 +82,7 @@ class Canvas(GameObject):
         mouse = pygame.mouse.get_pressed()
 
         mouse_position = pygame.mouse.get_pos()
-        self.selector.transform.position = Vector2(mouse_position[0], mouse_position[1])
+        self.selector.transform.set_position(Vector2(mouse_position[0], mouse_position[1]))
 
         self.check_mouse_click(mouse)
         self.check_sprite_change(keys)

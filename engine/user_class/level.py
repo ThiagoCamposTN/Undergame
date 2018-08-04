@@ -4,7 +4,7 @@ from pygame.math import Vector2
 
 class Level(LevelBase):
     def start(self):
-        self.transform.position = Vector2(0, 0)
+        self.transform.set_position(Vector2(0, 0))
         self.load_debug_sheet('spritesheets')
         self.load_room('room1')
         

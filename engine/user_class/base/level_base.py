@@ -97,3 +97,6 @@ class LevelBase(GameObject):
 
     def _update_scale(self):
         self.spritesheet._resize_sprites(self.main_camera.display_scale)
+
+    def _get_collider(self):
+        return self.room.collider

@@ -3,7 +3,7 @@ from engine.core.internal.transform import Transform
 
 class GameObject:
     def __init__(self):
-        self.transform = Transform()
+        self.transform = Transform(self)
 
     def _awake(self, game_display, main_camera):
         self.game_display = game_display

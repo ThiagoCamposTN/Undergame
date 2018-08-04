@@ -6,7 +6,7 @@ class Camera(GameObject):
     def __init__(self, game_manager, position, zoom):
         super().__init__()
         self.game_manager = game_manager
-        self.transform.position = position
+        self.transform.set_position(position)
         self.display_scale = zoom
 
     def zoom(self, factor):

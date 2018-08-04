@@ -10,6 +10,7 @@ class MockManager():
         self.game_display = game_display
         self.hierarchy = []
         self.main_camera = None
+        self.collision_handler = None
 
 class GameManager:
     def __init__(self, game_display):
@@ -73,8 +74,6 @@ class GameManager:
 
         for gameObj in self.hierarchy:
             gameObj._update()
-
-        self.collision_handler._check_for_collision()
 
     def update_objects_scale(self):
         for gameObj in self.hierarchy:

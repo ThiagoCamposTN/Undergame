@@ -8,7 +8,7 @@ class Selector(GameObject):
         super()._awake(game_display, display_scale)
         self.current_sprite = 0
         self.sprite_quantity = 0
-        self.transform.position = Vector2(0, 0)
+        self.transform.set_position(Vector2(0, 0))
 
     def get_current_sprite(self):
         return self.current_sprite
