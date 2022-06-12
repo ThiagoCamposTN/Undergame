@@ -12,15 +12,10 @@ class Room:
 
         for sprites in spritesheet["sprites"]:
             for position in sprites['positions']:
-                self.positions[str(position)[1:-1]] = sprites['name']
+                tuple_position = tuple(position)
+                self.positions[tuple_position] = sprites['name']
 
         self.collider = MapCollider(self, spritesheet["collisions"])
-
-    def get_position(self, position_string):
-        # TODO: why are positions stored as string?
-        splitted_position = position_string.split(",")
-
-        return Vector2(int(float(splitted_position[0])), int(float(splitted_position[1])))
 
     def sprite_name_in_position(self, position_string):
         return self.positions[position_string]

@@ -47,10 +47,10 @@ class LevelBase(GameObject):
 
     def _game_update(self):
         if self.spritesheet:
-            for position_string in self.room.positions:
-                position = self.room.get_position(position_string)
+            for tuple_position in self.room.positions:
+                position = Vector2(tuple_position)
                 # current sprite name
-                sprite_name = self.room.sprite_name_in_position(position_string)
+                sprite_name = self.room.sprite_name_in_position(tuple_position)
                 # sprite position within the spritesheet
                 sprite_rect = self.spritesheet.get_sprite_rect(sprite_name)
                 # 'cut' the sprite out from the sprite sheet

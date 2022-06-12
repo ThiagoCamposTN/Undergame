@@ -32,10 +32,10 @@ class Canvas(GameObject):
 
     def _screen_update(self):
         if self.spritesheet:
-            for str_position in self.room.positions:
-                position = self.room.get_position(str_position)
+            for tuple_position in self.room.positions:
+                position = Vector2(tuple_position)
                 tile_position = self._tile_position_based_on_display_scale(position)
-                sprite_in_position = self.room.positions[str_position]
+                sprite_in_position = self.room.positions[tuple_position]
 
                 # 'cut' the sprite out from the sprite sheet
                 sprite = self.spritesheet.sheet.subsurface(self.spritesheet.get_sprite_rect(sprite_in_position))
@@ -91,7 +91,7 @@ class Canvas(GameObject):
         if mouse[0]:
             new_tile_position = (self.selector_grid_position.x // self.display_scale.x, self.selector_grid_position.y // self.display_scale.y)
             sprite_index = self.selector.get_current_sprite()
-            self.room.positions[str(new_tile_position)[1:-1]] = self.spritesheet.get_sprite_name_by_index(sprite_index)
+            self.room.positions[new_tile_position] = self.spritesheet.get_sprite_name_by_index(sprite_index)
 
     def check_sprite_change(self, keys):
         changed_delta = None
