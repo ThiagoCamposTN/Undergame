@@ -65,7 +65,7 @@ class Canvas(GameObject):
         self.spritesheet._resize_sprites(self.main_camera.display_scale)
 
     def load_room(self, room_name):
-        room_path = os.path.join('resources/rooms/', room_name + '.json')
+        room_path = os.path.join("resources", "rooms", f"{room_name}.json")
         room_data = utils.get_file_data(room_path)
 
         self.room = Room(room_data, room_name)
