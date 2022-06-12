@@ -17,9 +17,10 @@ class Room:
         self.collider = MapCollider(self, spritesheet["collisions"])
 
     def get_position(self, position_string):
+        # TODO: why are positions stored as string?
         splitted_position = position_string.split(",")
 
-        return Vector2(int(splitted_position[0]), int(splitted_position[1]))
+        return Vector2(int(float(splitted_position[0])), int(float(splitted_position[1])))
 
     def sprite_name_in_position(self, position_string):
         return self.positions[position_string]
