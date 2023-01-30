@@ -1,0 +1,60 @@
+{
+    "file" : "Kanji.png",
+    "sprites" :
+    [
+        { "name" : "front1", "rect" : [0, 0, 16, 16] },
+        { "name" : "front2", "rect" : [16, 0, 16, 16] },
+        { "name" : "front3", "rect" : [32, 0, 16, 16] },
+        { "name" : "front4", "rect" : [48, 0, 16, 16] },
+        { "name" : "front5", "rect" : [64, 0, 16, 16] },
+
+        { "name" : "back1", "rect" : [0, 16, 16, 16] },
+        { "name" : "back2", "rect" : [16, 16, 16, 16] },
+        { "name" : "back3", "rect" : [32, 16, 16, 16] },
+        { "name" : "back4", "rect" : [48, 16, 16, 16] },
+        { "name" : "back5", "rect" : [64, 16, 16, 16] },
+
+        { "name" : "right1", "rect" : [0, 32, 16, 16] },
+        { "name" : "right2", "rect" : [16, 32, 16, 16] },
+        { "name" : "right3", "rect" : [32, 32, 16, 16] },
+        { "name" : "right4", "rect" : [48, 32, 16, 16] },
+        { "name" : "right5", "rect" : [64, 32, 16, 16] },
+
+        { "name" : "left1", "rect" : [0, 48, 16, 16] },
+        { "name" : "left2", "rect" : [16, 48, 16, 16] },
+        { "name" : "left3", "rect" : [32, 48, 16, 16] },
+        { "name" : "left4", "rect" : [48, 48, 16, 16] },
+        { "name" : "left5", "rect" : [64, 48, 16, 16] }
+    ],
+    "collisions": 
+    [
+        {
+            "type": "rectangle",
+            "name": "collisionBox",
+            "sprites": ["front1", "front2", "front3", "front4", "front5",
+                        "back1", "back2", "back3", "back4", "back5",
+                        "right1", "right2", "right3", "right4", "right5",
+                        "left1", "left2", "left3", "left4", "left5"],
+            "rect": [16, 16]
+        }
+    ],
+    "animations" :
+    [
+        {   "name" : "walk_forward",
+            "frames" : ["front2", "front3", "front4", "front5"],
+            "duration" : [0.15, 0.15, 0.15, 0.15]
+        },
+        {   "name" : "walk_back",
+            "frames" : ["back2", "back3", "back4", "back5"],
+            "duration" : [0.15, 0.15, 0.15, 0.15]
+        },
+        {   "name" : "walk_right",
+            "frames" : ["right2", "right3", "right4", "right5"],
+            "duration" : [0.15, 0.15, 0.15, 0.15]
+        },
+        {   "name" : "walk_left",
+            "frames" : ["left2", "left3", "left4", "left5"],
+            "duration" : [0.15, 0.15, 0.15, 0.15]
+        }
+    ]
+}

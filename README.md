@@ -17,3 +17,7 @@ env/scripts/activate
 ```bash
 pip install -r requirements.txt
 ```
+
+## Resources
+
+"[MiniWorldSprites](https://opengameart.org/content/miniworld-sprites)" Asset Pack made by Shade (Shade#4061 on Discord);

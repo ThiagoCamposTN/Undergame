@@ -27,7 +27,7 @@ class MyTest(unittest.TestCase):
 
         self.player._awake(self.game_manager.game_display, self.game_manager.main_camera)
         self.player._start()
-        self.player.load_spritesheet('characters', 'frisk')
+        self.player.load_spritesheet('characters', 'Kanji')
 
         #TODO: for some reason, the collision list is not empty when setUp is run once.
         # is needed to find a way to fix this.

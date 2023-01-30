@@ -4,7 +4,7 @@ from pygame.math import Vector2
 
 class Player(PlayerBase):
     def start(self):
-        self.load_spritesheet('characters', 'frisk')
+        self.load_spritesheet('characters', 'Kanji')
         
     def update(self):
         keys = pygame.key.get_pressed()
