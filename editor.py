@@ -7,10 +7,10 @@ def display_config():
     config = configparser.ConfigParser()
     config.read('editor.cfg')
 
-    resolution = (int(config['General']['Width']), int(config['General']['Height']))
-    grid_size = Vector2(int(config['Editor']['GridSizeX']), int(config['Editor']['GridSizeY']))
+    resolution                  = (int(config['General']['Width']), int(config['General']['Height']))
+    grid_size                   = Vector2(int(config['Editor']['GridSizeX']), int(config['Editor']['GridSizeY']))
     spritesheet_path, data_path = str(config['Editor']['Spritesheet']), str(config['Editor']['Data'])
-    room_name = str(config['Editor']['RoomName'])
+    room_name                   = str(config['Editor']['RoomName'])
 
     return pygame.display.set_mode(resolution), grid_size, spritesheet_path, data_path, room_name
 
